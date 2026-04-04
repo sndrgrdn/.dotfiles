@@ -1,0 +1,487 @@
+#!/usr/bin/env bash
+
+set -euo pipefail
+
+readonly SCRIPT_NAME="dot"
+readonly VERSION="0.1.0"
+readonly DOTFILES_DIR="${HOME}/.dotfiles"
+readonly HOME_DIR="${DOTFILES_DIR}/home"
+readonly BREWFILE="${DOTFILES_DIR}/Brewfile"
+
+ASSUME_YES=false
+USE_GUM=false
+
+plain_info() {
+  printf '[INFO] %s\n' "$1"
+}
+
+plain_warn() {
+  printf '[WARN] %s\n' "$1" >&2
+}
+
+plain_error() {
+  printf '[ERROR] %s\n' "$1" >&2
+}
+
+command_exists() {
+  command -v "$1" >/dev/null 2>&1
+}
+
+enable_gum() {
+  if command_exists gum; then
+    USE_GUM=true
+  fi
+}
+
+header() {
+  if [[ "$USE_GUM" == true ]]; then
+    gum style --bold --foreground 12 "$1"
+  else
+    printf '\n==> %s\n' "$1"
+  fi
+}
+
+info() {
+  if [[ "$USE_GUM" == true ]]; then
+    gum style --foreground 6 "$1"
+  else
+    plain_info "$1"
+  fi
+}
+
+success() {
+  if [[ "$USE_GUM" == true ]]; then
+    gum style --foreground 10 "$1"
+  else
+    printf '[OK] %s\n' "$1"
+  fi
+}
+
+warn() {
+  if [[ "$USE_GUM" == true ]]; then
+    gum style --foreground 11 "$1" >&2
+  else
+    plain_warn "$1"
+  fi
+}
+
+error() {
+  if [[ "$USE_GUM" == true ]]; then
+    gum style --foreground 9 "$1" >&2
+  else
+    plain_error "$1"
+  fi
+}
+
+confirm_plain() {
+  local prompt="$1"
+  if [[ "$ASSUME_YES" == true ]]; then
+    return 0
+  fi
+  read -r -p "$prompt [y/N]: " response
+  case "$response" in
+    [yY]|[yY][eE][sS]) return 0 ;;
+    *) return 1 ;;
+  esac
+}
+
+confirm_action() {
+  local prompt="$1"
+  if [[ "$ASSUME_YES" == true ]]; then
+    return 0
+  fi
+  if [[ "$USE_GUM" == true ]]; then
+    gum confirm "$prompt"
+  else
+    confirm_plain "$prompt"
+  fi
+}
+
+require_runtime_tools() {
+  local missing=()
+  local tool
+  for tool in "$@"; do
+    if ! command_exists "$tool"; then
+      missing+=("$tool")
+    fi
+  done
+
+  if [[ ${#missing[@]} -gt 0 ]]; then
+    error "Missing required tools: ${missing[*]}"
+    error "Run 'dot init' to repair this machine state."
+    exit 1
+  fi
+}
+
+ensure_homebrew() {
+  if command_exists brew; then
+    plain_info "Homebrew already installed"
+    return 0
+  fi
+
+  if ! confirm_plain "Homebrew is required. Install it now?"; then
+    plain_error "Homebrew is required for init"
+    return 1
+  fi
+
+  plain_info "Installing Homebrew..."
+  NONINTERACTIVE=1 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+
+  if [[ -x /opt/homebrew/bin/brew ]]; then
+    eval "$(/opt/homebrew/bin/brew shellenv)"
+  elif [[ -x /usr/local/bin/brew ]]; then
+    eval "$(/usr/local/bin/brew shellenv)"
+  fi
+
+  plain_info "Homebrew installed"
+}
+
+ensure_brew_package() {
+  local package="$1"
+  local check_command="$2"
+
+  if command_exists "$check_command"; then
+    plain_info "$package already installed"
+    return 0
+  fi
+
+  if ! confirm_plain "Install $package now?"; then
+    plain_error "$package is required for init"
+    return 1
+  fi
+
+  plain_info "Installing $package..."
+  brew install "$package"
+}
+
+preflight_init() {
+  ensure_homebrew
+  ensure_brew_package gum gum
+  ensure_brew_package stow stow
+  enable_gum
+}
+
+show_help() {
+  cat <<'EOF'
+dot - Personal dotfiles manager
+
+USAGE
+  dot [--yes] <command> [options]
+
+COMMANDS
+  init            Bootstrap this machine from ~/.dotfiles
+  stow            Apply managed dotfiles with GNU Stow
+  doctor          Check core dotfiles health
+  update          Pull repo changes, update packages, re-stow
+  link            Symlink ~/.dotfiles/dot into ~/.local/bin
+  unlink          Remove ~/.local/bin/dot if it is a symlink
+  help            Show this help text
+
+OPTIONS
+  --yes           Skip confirmations
+  --version       Show version
+  -h, --help      Show help
+
+STOW OPTIONS
+  dot stow --dry-run
+EOF
+}
+
+run_brew_bundle() {
+  info "Applying Brewfile"
+  brew bundle --file "$BREWFILE"
+}
+
+setup_fish_shell() {
+  if ! command_exists fish; then
+    warn "Fish is not installed; skipping default shell setup"
+    return 0
+  fi
+
+  local fish_path
+  fish_path="$(command -v fish)"
+
+  if ! grep -q "$fish_path" /etc/shells; then
+    info "Adding Fish to /etc/shells"
+    printf '%s\n' "$fish_path" | sudo tee -a /etc/shells >/dev/null
+  fi
+
+  if [[ "${SHELL:-}" == "$fish_path" ]]; then
+    success "Fish is already the default shell"
+    return 0
+  fi
+
+  info "Setting Fish as the default shell"
+  if chsh -s "$fish_path"; then
+    success "Default shell changed to Fish"
+    info "Log out and back in for the shell change to take effect"
+  else
+    warn "Failed to change default shell to Fish"
+  fi
+}
+
+run_stow() {
+  local stow_args=(-R -v -d "$DOTFILES_DIR" -t "$HOME")
+  if [[ "${1:-}" == "--dry-run" ]]; then
+    stow_args=(-n "${stow_args[@]}")
+    header "Dry Run Stow"
+  else
+    header "Stow"
+  fi
+
+  stow "${stow_args[@]}" home
+  success "Dotfiles applied"
+}
+
+cmd_init() {
+  header "Init"
+  preflight_init
+
+  if ! confirm_action "Run brew bundle from $BREWFILE?"; then
+    warn "Init cancelled"
+    return 0
+  fi
+
+  run_brew_bundle
+  setup_fish_shell
+
+  if ! confirm_action "Apply dotfiles with stow?"; then
+    warn "Skipped stow"
+    return 0
+  fi
+
+  run_stow
+  success "Init complete"
+}
+
+path_is_managed_symlink() {
+  local path="$1"
+  [[ -L "$path" ]] || return 1
+
+  local target
+  target="$(readlink "$path" 2>/dev/null || true)"
+  [[ "$target" == *".dotfiles/home"* ]]
+}
+
+emit_managed_targets() {
+  local source_dir="$1"
+  local target_dir="$2"
+  local child_source
+
+  while IFS= read -r child_source; do
+    local name rel_path child_target
+    name="$(basename "$child_source")"
+    rel_path="${child_source#"$HOME_DIR"/}"
+    child_target="$target_dir/$name"
+
+    if [[ -d "$child_source" && -d "$child_target" && ! -L "$child_target" ]]; then
+      emit_managed_targets "$child_source" "$child_target"
+    else
+      printf '%s\n' "$rel_path"
+    fi
+  done < <(find "$source_dir" -mindepth 1 -maxdepth 1 | LC_ALL=C sort)
+}
+
+managed_paths() {
+  emit_managed_targets "$HOME_DIR" "$HOME"
+}
+
+check_managed_path() {
+  local rel="$1"
+  local target_path="$HOME/$rel"
+
+  if path_is_managed_symlink "$target_path"; then
+    return 0
+  fi
+
+  if [[ -L "$target_path" ]]; then
+    error "Managed target points outside dotfiles: $target_path"
+    return 1
+  fi
+
+  if [[ -e "$target_path" ]]; then
+    error "Managed target exists but is not a dotfiles symlink: $target_path"
+    return 1
+  fi
+
+  error "Missing managed target: $target_path"
+  return 1
+}
+
+cmd_doctor() {
+  require_runtime_tools gum brew stow
+  enable_gum
+  header "Doctor"
+
+  local issues=0
+
+  if [[ -d "$HOME_DIR" ]]; then
+    success "Found $HOME_DIR"
+  else
+    error "Missing $HOME_DIR"
+    ((issues+=1))
+  fi
+
+  if [[ -f "$BREWFILE" ]]; then
+    success "Found $BREWFILE"
+  else
+    error "Missing $BREWFILE"
+    ((issues+=1))
+  fi
+
+  if command_exists brew; then
+    success "Homebrew installed"
+  else
+    error "Homebrew missing"
+    ((issues+=1))
+  fi
+
+  if command_exists stow; then
+    success "GNU Stow installed"
+  else
+    error "GNU Stow missing"
+    ((issues+=1))
+  fi
+
+  if [[ -f "$BREWFILE" ]]; then
+    if brew bundle check --file "$BREWFILE" >/dev/null 2>&1; then
+      success "Brewfile is satisfied"
+    else
+      error "Brewfile packages are missing"
+      ((issues+=1))
+    fi
+  fi
+
+  if [[ -d "$HOME_DIR" ]]; then
+    while IFS= read -r source_path; do
+      local rel
+      rel="${source_path#"$HOME_DIR"/}"
+      if ! check_managed_path "$rel"; then
+        ((issues+=1))
+      fi
+    done < <(managed_paths)
+  fi
+
+  if [[ $issues -eq 0 ]]; then
+    success "Doctor passed"
+  else
+    error "Doctor found $issues issue(s)"
+    return 1
+  fi
+}
+
+cmd_update() {
+  require_runtime_tools gum brew stow git
+  enable_gum
+  header "Update"
+
+  if [[ -n "$(git -C "$DOTFILES_DIR" status --porcelain)" ]]; then
+    warn "Dotfiles repo has local changes"
+    if ! confirm_action "Continue with git pull anyway?"; then
+      warn "Update cancelled"
+      return 0
+    fi
+  fi
+
+  info "Pulling latest changes"
+  git -C "$DOTFILES_DIR" pull
+
+  if confirm_action "Run brew update, brew upgrade, and brew bundle?"; then
+    brew update
+    brew upgrade
+    brew bundle --file "$BREWFILE"
+    success "Package update complete"
+  else
+    warn "Skipped package update"
+  fi
+
+  if confirm_action "Re-apply dotfiles with stow?"; then
+    run_stow
+  else
+    warn "Skipped stow"
+  fi
+}
+
+cmd_link() {
+  mkdir -p "$HOME/.local/bin"
+
+  local link_path="$HOME/.local/bin/dot"
+  if [[ -L "$link_path" ]]; then
+    rm "$link_path"
+  fi
+
+  if ln -s "$DOTFILES_DIR/dot" "$link_path"; then
+    printf 'Linked %s -> %s\n' "$link_path" "$DOTFILES_DIR/dot"
+  else
+    plain_error "Failed to create $link_path"
+    return 1
+  fi
+}
+
+cmd_unlink() {
+  local link_path="$HOME/.local/bin/dot"
+  if [[ -L "$link_path" ]]; then
+    rm "$link_path"
+    printf 'Removed %s\n' "$link_path"
+  else
+    printf 'No dot symlink found at %s\n' "$link_path"
+  fi
+}
+
+main() {
+  while [[ $# -gt 0 ]]; do
+    case "$1" in
+      --yes)
+        ASSUME_YES=true
+        shift
+        ;;
+      --version)
+        printf '%s %s\n' "$SCRIPT_NAME" "$VERSION"
+        exit 0
+        ;;
+      -h|--help)
+        show_help
+        exit 0
+        ;;
+      *)
+        break
+        ;;
+    esac
+  done
+
+  local cmd="${1:-help}"
+  shift || true
+
+  case "$cmd" in
+    init)
+      cmd_init "$@"
+      ;;
+    stow)
+      require_runtime_tools gum stow
+      enable_gum
+      run_stow "${1:-}"
+      ;;
+    doctor)
+      cmd_doctor
+      ;;
+    update)
+      cmd_update
+      ;;
+    link)
+      cmd_link
+      ;;
+    unlink)
+      cmd_unlink
+      ;;
+    help)
+      show_help
+      ;;
+    *)
+      plain_error "Unknown command: $cmd"
+      show_help
+      exit 1
+      ;;
+  esac
+}
+
+main "$@"

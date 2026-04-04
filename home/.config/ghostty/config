@@ -1,0 +1,20 @@
+# Theme
+theme = Catppuccin Macchiato
+
+# Shell integrations
+quit-after-last-window-closed = true
+
+# Font
+font-size = 13
+font-family = "JetBrains Mono"
+
+# Window
+window-padding-color = background
+window-padding-balance = true
+window-padding-x = 10
+window-padding-y = 10
+
+# Macos
+macos-option-as-alt = true
+macos-titlebar-proxy-icon = hidden
+macos-titlebar-style = tabs

@@ -1,0 +1,28 @@
+[core]
+  excludesfile = ~/.config/git/gitignore_global
+	pager = delta
+[alias]
+  aa = add --all
+  br = branch
+  co = checkout
+  st = status -s
+  cm = commit -m
+  amend = !git add --all && git commit --amend --no-edit && git push --force
+[pull]
+	rebase = true
+[init]
+	defaultBranch = master
+[user]
+	email = git@sander.garden
+	name = Sander Tuin
+[filter "lfs"]
+	clean = git-lfs clean -- %f
+	smudge = git-lfs smudge -- %f
+	process = git-lfs filter-process
+	required = true
+[interactive]
+	diffFilter = delta --color-only
+[delta]
+	navigate = true
+[merge]
+	conflictStyle = zdiff3
