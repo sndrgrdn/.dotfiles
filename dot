@@ -799,6 +799,7 @@ USAGE
   dot package add <name> [brew|cask|auto]
   dot package remove <name>
   dot package update [name|all]
+  dot package cleanup
 EOF
 }
 
@@ -906,6 +907,14 @@ cmd_package_update() {
   success "$package_name updated"
 }
 
+cmd_package_cleanup() {
+  require_runtime_tools brew
+  header "Package Cleanup"
+  brew cleanup
+  brew autoremove
+  success "Package cleanup complete"
+}
+
 cmd_package() {
   local subcommand="${1:-list}"
   shift || true
@@ -919,6 +928,9 @@ cmd_package() {
       ;;
     update)
       cmd_package_update "$@"
+      ;;
+    cleanup)
+      cmd_package_cleanup
       ;;
     list)
       cmd_package_list "$@"
