@@ -51,6 +51,10 @@ success() {
   printf '%b\n' "${GREEN}✓${RESET} ${GREEN}[OK]${RESET} $1"
 }
 
+regex_escape() {
+  printf '%s' "$1" | sed 's/[][(){}.^$*+?|\\/]/\\&/g'
+}
+
 show_log_excerpt() {
   local log_file="$1"
   local line_count=0
@@ -193,6 +197,8 @@ COMMANDS
   stow            Apply managed dotfiles with GNU Stow
   doctor          Check core dotfiles health
   update          Pull repo changes, update packages, re-stow
+  package         Manage Brewfile packages
+  check-packages  Check Brewfile packages against this machine
   link            Symlink ~/.dotfiles/dot into ~/.local/bin
   unlink          Remove ~/.local/bin/dot if it is a symlink
   help            Show this help text
@@ -204,14 +210,180 @@ OPTIONS
 
 STOW OPTIONS
   dot stow --dry-run
+
+PACKAGE OPTIONS
+  dot package list
+  dot package add <name> [brew|cask|auto]
+  dot package remove <name>
+  dot package update [name|all]
 EOF
 }
 
 run_brew_bundle() {
   step "Applying Brewfile"
   detail "$BREWFILE"
-  run_logged_streaming "brew bundle" brew bundle --file "$BREWFILE"
-  success "Brewfile applied"
+
+  if brew bundle --file "$BREWFILE"; then
+    success "Brewfile applied"
+    return 0
+  fi
+
+  warn "brew bundle failed; retrying packages individually"
+  install_brewfile_packages_individually
+}
+
+brewfile_entries() {
+  while IFS= read -r line || [[ -n "$line" ]]; do
+    [[ "$line" =~ ^[[:space:]]*# ]] && continue
+    [[ -z "${line//[[:space:]]/}" ]] && continue
+
+    if [[ "$line" =~ ^brew[[:space:]]+\"([^\"]+)\" ]]; then
+      printf 'brew\t%s\n' "${BASH_REMATCH[1]}"
+    elif [[ "$line" =~ ^cask[[:space:]]+\"([^\"]+)\" ]]; then
+      printf 'cask\t%s\n' "${BASH_REMATCH[1]}"
+    fi
+  done < "$BREWFILE"
+}
+
+install_brewfile_packages_individually() {
+  local failed_packages=()
+  local installed_count=0
+  local kind package
+
+  while IFS=$'\t' read -r kind package; do
+    [[ -n "$kind" && -n "$package" ]] || continue
+    step "Installing $kind package: $package"
+
+    if [[ "$kind" == "cask" ]]; then
+      if brew install --cask "$package"; then
+        installed_count=$((installed_count + 1))
+      else
+        warn "Failed to install cask: $package"
+        failed_packages+=("cask:$package")
+      fi
+    else
+      if brew install "$package"; then
+        installed_count=$((installed_count + 1))
+      else
+        warn "Failed to install brew package: $package"
+        failed_packages+=("brew:$package")
+      fi
+    fi
+  done < <(brewfile_entries)
+
+  if [[ ${#failed_packages[@]} -gt 0 ]]; then
+    warn "Failed packages: ${failed_packages[*]}"
+    error "Installed $installed_count package(s); ${#failed_packages[@]} failed"
+    return 1
+  fi
+
+  success "Installed $installed_count package(s)"
+}
+
+package_is_declared() {
+  local package_name="$1"
+  local escaped_name
+  escaped_name="$(regex_escape "$package_name")"
+  grep -Eq "^(brew|cask)[[:space:]]+\"${escaped_name}\"$" "$BREWFILE"
+}
+
+detect_package_type() {
+  local package_name="$1"
+
+  if brew info --json=v2 --formula "$package_name" >/dev/null 2>&1; then
+    printf 'brew\n'
+  elif brew info --json=v2 --cask "$package_name" >/dev/null 2>&1; then
+    printf 'cask\n'
+  else
+    printf 'brew\n'
+  fi
+}
+
+append_sorted_brewfile_entry() {
+  local package_type="$1"
+  local package_name="$2"
+  local package_line="${package_type} \"${package_name}\""
+  local temp_file inserted=false line existing_name
+
+  temp_file=$(mktemp)
+
+  while IFS= read -r line || [[ -n "$line" ]]; do
+    if [[ "$inserted" == false && "$line" =~ ^${package_type}[[:space:]]+\"([^\"]+)\" ]]; then
+      existing_name="${BASH_REMATCH[1]}"
+      if [[ "$package_name" < "$existing_name" ]]; then
+        printf '%s\n' "$package_line" >> "$temp_file"
+        inserted=true
+      fi
+    fi
+    printf '%s\n' "$line" >> "$temp_file"
+  done < "$BREWFILE"
+
+  if [[ "$inserted" == false ]]; then
+    if [[ -s "$temp_file" ]]; then
+      printf '\n%s\n' "$package_line" >> "$temp_file"
+    else
+      printf '%s\n' "$package_line" >> "$temp_file"
+    fi
+  fi
+
+  mv "$temp_file" "$BREWFILE"
+}
+
+remove_brewfile_entry() {
+  local package_name="$1"
+  local escaped_name temp_file
+
+  escaped_name="$(regex_escape "$package_name")"
+  temp_file=$(mktemp)
+  grep -Ev "^(brew|cask)[[:space:]]+\"${escaped_name}\"$" "$BREWFILE" > "$temp_file" || true
+  mv "$temp_file" "$BREWFILE"
+}
+
+report_package_status() {
+  local missing_brew=()
+  local missing_cask=()
+  local installed_brew=()
+  local installed_cask=()
+  local installed_formulas installed_casks kind package
+
+  installed_formulas=$(brew list --formula 2>/dev/null || true)
+  installed_casks=$(brew list --cask 2>/dev/null || true)
+
+  while IFS=$'\t' read -r kind package; do
+    [[ -n "$kind" && -n "$package" ]] || continue
+
+    if [[ "$kind" == "cask" ]]; then
+      if grep -qx "$package" <<< "$installed_casks"; then
+        installed_cask+=("$package")
+      else
+        missing_cask+=("$package")
+      fi
+    else
+      if grep -qx "$package" <<< "$installed_formulas"; then
+        installed_brew+=("$package")
+      else
+        missing_brew+=("$package")
+      fi
+    fi
+  done < <(brewfile_entries)
+
+  success "Installed brew formulas: ${#installed_brew[@]}"
+  success "Installed casks: ${#installed_cask[@]}"
+
+  if [[ ${#missing_brew[@]} -gt 0 ]]; then
+    warn "Missing brew formulas: ${missing_brew[*]}"
+  fi
+
+  if [[ ${#missing_cask[@]} -gt 0 ]]; then
+    warn "Missing casks: ${missing_cask[*]}"
+  fi
+
+  if [[ ${#missing_brew[@]} -eq 0 && ${#missing_cask[@]} -eq 0 ]]; then
+    success "All Brewfile packages are installed"
+    return 0
+  fi
+
+  return 1
 }
 
 run_mise_install() {
@@ -372,6 +544,7 @@ cmd_doctor() {
   header "Doctor"
 
   local issues=0
+  local tool
 
   if [[ -d "$HOME_DIR" ]]; then
     success "Found $HOME_DIR"
@@ -401,6 +574,17 @@ cmd_doctor() {
     ((issues+=1))
   fi
 
+  if command_exists fish; then
+    success "Fish installed"
+    if [[ "${SHELL:-}" == "$(command -v fish)" ]]; then
+      success "Fish is the default shell"
+    else
+      warn "Fish is not the default shell"
+    fi
+  else
+    warn "Fish is not installed"
+  fi
+
   if [[ -f "$BREWFILE" ]]; then
     step "Checking Brewfile compliance"
     if brew bundle check --file "$BREWFILE" >/dev/null 2>&1; then
@@ -420,6 +604,48 @@ cmd_doctor() {
         ((issues+=1))
       fi
     done < <(managed_paths)
+  fi
+
+  if [[ -f "$BREWFILE" ]]; then
+    step "Checking Brewfile package status"
+    if ! report_package_status; then
+      ((issues+=1))
+    fi
+  fi
+
+  step "Checking link health"
+  if [[ -L "$HOME/.local/bin/dot" ]]; then
+    success "Found ~/.local/bin/dot symlink"
+  else
+    warn "Missing ~/.local/bin/dot symlink"
+  fi
+
+  local broken_links=0
+  while IFS= read -r -d '' link; do
+    if [[ ! -e "$link" ]]; then
+      broken_links=$((broken_links + 1))
+    fi
+  done < <(find "$HOME" -maxdepth 3 -type l -print0 2>/dev/null)
+
+  if [[ $broken_links -eq 0 ]]; then
+    success "No broken symlinks found under home"
+  else
+    warn "Found $broken_links broken symlink(s) under home"
+  fi
+
+  step "Checking core development tools"
+  local optional_tools=(git gh jq rg mise)
+  local optional_missing=()
+  for tool in "${optional_tools[@]}"; do
+    if command_exists "$tool"; then
+      success "$tool is available"
+    else
+      optional_missing+=("$tool")
+    fi
+  done
+
+  if [[ ${#optional_missing[@]} -gt 0 ]]; then
+    warn "Missing optional tools: ${optional_missing[*]}"
   fi
 
   if [[ $issues -eq 0 ]]; then
@@ -450,7 +676,7 @@ cmd_update() {
     step "Refreshing Homebrew"
     run_logged_streaming "brew update" brew update
     run_logged_streaming "brew upgrade" brew upgrade
-    run_logged_streaming "brew bundle" brew bundle --file "$BREWFILE"
+    run_brew_bundle
     success "Package update complete"
   else
     warn "Skipped package update"
@@ -463,10 +689,176 @@ cmd_update() {
   fi
 }
 
-cmd_link() {
-  mkdir -p "$HOME/.local/bin"
+cmd_check_packages() {
+  require_runtime_tools brew
+  header "Check Packages"
+  if report_package_status; then
+    return 0
+  fi
+  return 1
+}
 
-  local link_path="$HOME/.local/bin/dot"
+cmd_package_help() {
+  cat <<'EOF'
+dot package - Manage Brewfile packages
+
+USAGE
+  dot package list
+  dot package add <name> [brew|cask|auto]
+  dot package remove <name>
+  dot package update [name|all]
+EOF
+}
+
+cmd_package_list() {
+  header "Package List"
+
+  local kind package
+  while IFS=$'\t' read -r kind package; do
+    [[ -n "$kind" && -n "$package" ]] || continue
+    printf '%s %s\n' "$kind" "$package"
+  done < <(brewfile_entries)
+}
+
+cmd_package_add() {
+  require_runtime_tools brew
+
+  local package_name="${1:-}"
+  local package_type="${2:-auto}"
+
+  if [[ -z "$package_name" ]]; then
+    error "Package name required"
+    cmd_package_help
+    return 1
+  fi
+
+  if [[ "$package_type" == "auto" ]]; then
+    package_type=$(detect_package_type "$package_name")
+  fi
+
+  if [[ "$package_type" != "brew" && "$package_type" != "cask" ]]; then
+    error "Package type must be brew, cask, or auto"
+    return 1
+  fi
+
+  if package_is_declared "$package_name"; then
+    warn "$package_name is already declared in Brewfile"
+    return 0
+  fi
+
+  header "Add Package"
+  step "Installing $package_name"
+  if [[ "$package_type" == "cask" ]]; then
+    brew install --cask "$package_name"
+  else
+    brew install "$package_name"
+  fi
+
+  step "Updating Brewfile"
+  append_sorted_brewfile_entry "$package_type" "$package_name"
+  success "Added $package_type package: $package_name"
+}
+
+cmd_package_remove() {
+  require_runtime_tools brew
+
+  local package_name="${1:-}"
+
+  if [[ -z "$package_name" ]]; then
+    error "Package name required"
+    cmd_package_help
+    return 1
+  fi
+
+  if ! package_is_declared "$package_name"; then
+    warn "$package_name is not declared in Brewfile"
+    return 0
+  fi
+
+  header "Remove Package"
+  step "Updating Brewfile"
+  remove_brewfile_entry "$package_name"
+  success "Removed $package_name from Brewfile"
+
+  if confirm "Uninstall $package_name from this machine?"; then
+    if brew list --cask 2>/dev/null | grep -qx "$package_name"; then
+      brew uninstall --cask "$package_name" || warn "Failed to uninstall cask $package_name"
+    else
+      brew uninstall "$package_name" || warn "Failed to uninstall formula $package_name"
+    fi
+  fi
+}
+
+cmd_package_update() {
+  require_runtime_tools brew
+
+  local package_name="${1:-all}"
+  header "Update Packages"
+
+  step "Refreshing Homebrew"
+  brew update
+
+  if [[ "$package_name" == "all" ]]; then
+    step "Upgrading installed packages"
+    brew upgrade
+    success "Packages updated"
+    return 0
+  fi
+
+  step "Upgrading $package_name"
+  if brew list --cask 2>/dev/null | grep -qx "$package_name"; then
+    brew upgrade --cask "$package_name"
+  else
+    brew upgrade "$package_name"
+  fi
+  success "$package_name updated"
+}
+
+cmd_package() {
+  local subcommand="${1:-list}"
+  shift || true
+
+  case "$subcommand" in
+    add)
+      cmd_package_add "$@"
+      ;;
+    remove)
+      cmd_package_remove "$@"
+      ;;
+    update)
+      cmd_package_update "$@"
+      ;;
+    list)
+      cmd_package_list "$@"
+      ;;
+    help|-h|--help)
+      cmd_package_help
+      ;;
+    *)
+      error "Unknown package subcommand: $subcommand"
+      cmd_package_help
+      return 1
+      ;;
+  esac
+}
+
+cmd_link() {
+  local target_dir="/usr/local/bin"
+  local link_path
+
+  if [[ ! -d "$target_dir" || ! -w "$target_dir" ]]; then
+    target_dir="$HOME/.local/bin"
+    mkdir -p "$target_dir"
+    info "Using $target_dir"
+  fi
+
+  link_path="$target_dir/dot"
+
+  if [[ -e "$link_path" && ! -L "$link_path" ]]; then
+    error "$link_path exists and is not a symlink"
+    return 1
+  fi
+
   if [[ -L "$link_path" ]]; then
     rm "$link_path"
   fi
@@ -480,12 +872,25 @@ cmd_link() {
 }
 
 cmd_unlink() {
-  local link_path="$HOME/.local/bin/dot"
-  if [[ -L "$link_path" ]]; then
-    rm "$link_path"
-    success "Removed $link_path"
-  else
-    info "No dot symlink found at $link_path"
+  local link_path
+  local found=false
+  local paths=(
+    "/usr/local/bin/dot"
+    "$HOME/.local/bin/dot"
+    "/usr/local/bin/dotfiles"
+    "$HOME/.local/bin/dotfiles"
+  )
+
+  for link_path in "${paths[@]}"; do
+    if [[ -L "$link_path" ]]; then
+      rm "$link_path"
+      success "Removed $link_path"
+      found=true
+    fi
+  done
+
+  if [[ "$found" == false ]]; then
+    info "No dot symlink found in known locations"
   fi
 }
 
@@ -526,6 +931,12 @@ main() {
       ;;
     update)
       cmd_update
+      ;;
+    package)
+      cmd_package "$@"
+      ;;
+    check-packages)
+      cmd_check_packages
       ;;
     link)
       cmd_link
