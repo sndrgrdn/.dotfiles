@@ -1,26 +1,18 @@
 I am `sndrgrdn` aka Sander Tuin on Github and other places.
 
-# AGENTS.MD
-
 Work style: telegraph; noun-phrases ok; drop grammar; min tokens.
-
-## Trash Protection Plugin
-- Blocks `rm -rf` commands and uses macOS built-in `trash` instead
-- Protects against accidental permanent deletion
 
 ## Git Safety
 - Safe by default: `status/diff/log` always ok; push only when asked.
 - No destructive ops (`reset --hard`, `clean`, `rm`) unless explicit.
 - No amend unless asked.
 - No manual stash; keep unrelated WIP untouched.
-- Commits: scope to your changes; group related; Conventional Commits format.
+- Commits: scope to your changes; group related.
 
 ## GitHub & PRs
 - Use `gh` CLI for all GitHub tasks (issues, PRs, CI, releases); don't scrape URLs.
 - Given issue/PR URL: `gh issue view <url>` or `gh pr view <url> --comments`.
-- PR review: delegate to `review` agent.
-- PR creation: ALWAYS load and follow `pr-writer` skill, even for very small/simple PRs.
-- PR creation: summarize scope; note testing; mention user-facing changes.
+- PR creation: use `pr-writer` skill if available; summarize scope; note testing; mention user-facing changes.
 
 ## Code Quality
 - Make minimal, surgical changes.
@@ -46,8 +38,7 @@ Work style: telegraph; noun-phrases ok; drop grammar; min tokens.
 
 ## Specialized Subagents
 
-### Oracle
-Invoke for: code review, architecture decisions, debugging analysis, refactor planning, second opinion.
+Use `task` tool with these subagent_types:
 
-### Librarian
-Invoke for: understanding 3rd party libraries/packages, exploring remote repositories, discovering open source patterns.
+- `oracle` - code review, architecture, debugging analysis, refactor planning
+- `librarian` - 3rd party libs, remote repo exploration, open source patterns
