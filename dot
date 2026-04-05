@@ -200,6 +200,7 @@ COMMANDS
   gen-ssh-key     Generate an SSH key for Git hosting
   package         Manage Brewfile packages
   check-packages  Check Brewfile packages against this machine
+  completions     Generate Fish completions for dot
   edit            Open ~/.dotfiles in $EDITOR
   link            Symlink ~/.dotfiles/dot into ~/.local/bin
   unlink          Remove ~/.local/bin/dot if it is a symlink
@@ -235,6 +236,16 @@ run_brew_bundle() {
 
   warn "brew bundle failed; retrying packages individually"
   install_brewfile_packages_individually
+}
+
+write_failed_packages_report() {
+  local failed_packages=("$@")
+  local report_dir="${DOTFILES_DIR}/.reports"
+  local report_file="${report_dir}/failed-brew-packages-$(date +%Y%m%d_%H%M%S).txt"
+
+  mkdir -p "$report_dir"
+  printf '%s\n' "${failed_packages[@]}" > "$report_file"
+  warn "Saved failed package list to $report_file"
 }
 
 brewfile_entries() {
@@ -278,6 +289,7 @@ install_brewfile_packages_individually() {
 
   if [[ ${#failed_packages[@]} -gt 0 ]]; then
     warn "Failed packages: ${failed_packages[*]}"
+    write_failed_packages_report "${failed_packages[@]}"
     error "Installed $installed_count package(s); ${#failed_packages[@]} failed"
     return 1
   fi
@@ -411,6 +423,25 @@ run_mise_install() {
   fi
 }
 
+ensure_opencode() {
+  if command_exists opencode; then
+    info "OpenCode already installed"
+    return 0
+  fi
+
+  if ! confirm "Install OpenCode now?"; then
+    warn "Skipped OpenCode install"
+    return 0
+  fi
+
+  step "Installing OpenCode"
+  if /bin/bash -c "$(curl -fsSL https://opencode.ai/install)"; then
+    success "OpenCode installed"
+  else
+    warn "Failed to install OpenCode"
+  fi
+}
+
 setup_fish_shell() {
   if ! command_exists fish; then
     warn "Fish is not installed; skipping default shell setup"
@@ -475,6 +506,7 @@ cmd_init() {
   fi
 
   run_brew_bundle
+  ensure_opencode
   setup_fish_shell
 
   if ! confirm "Apply dotfiles with stow?"; then
@@ -639,7 +671,7 @@ cmd_doctor() {
   fi
 
   step "Checking core development tools"
-  local optional_tools=(git gh jq rg mise)
+  local optional_tools=(git gh jq rg mise opencode)
   local optional_missing=()
   for tool in "${optional_tools[@]}"; do
     if command_exists "$tool"; then
@@ -651,6 +683,35 @@ cmd_doctor() {
 
   if [[ ${#optional_missing[@]} -gt 0 ]]; then
     warn "Missing optional tools: ${optional_missing[*]}"
+  fi
+
+  if command_exists mise; then
+    step "Checking mise runtimes"
+    if mise ls >/dev/null 2>&1; then
+      success "mise is responding"
+    else
+      warn "mise is installed but not responding correctly"
+    fi
+  fi
+
+  step "Checking PATH exposure"
+  case ":$PATH:" in
+    *":$HOME/.local/bin:"*)
+      success "~/.local/bin is in PATH"
+      ;;
+    *)
+      warn "~/.local/bin is not in PATH"
+      ;;
+  esac
+
+  step "Checking Fish completion link"
+  local completion_target="$HOME/.config/fish/completions/dot.fish"
+  if [[ -L "$completion_target" ]]; then
+    success "Fish completion is linked"
+  elif [[ -e "$completion_target" ]]; then
+    warn "Fish completion exists but is not a dotfiles symlink"
+  else
+    warn "Fish completion is not installed"
   fi
 
   if [[ $issues -eq 0 ]]; then
@@ -957,6 +1018,46 @@ cmd_edit() {
   exec "$editor" "$DOTFILES_DIR"
 }
 
+cmd_completions() {
+  local completions_dir="${HOME_DIR}/.config/fish/completions"
+  local completions_file="${completions_dir}/dot.fish"
+
+  header "Completions"
+
+  mkdir -p "$completions_dir"
+
+  cat > "$completions_file" <<'EOF'
+# Fish completions for dot
+
+complete -c dot -f
+
+complete -c dot -n "__fish_use_subcommand" -a "init" -d "Bootstrap this machine from ~/.dotfiles"
+complete -c dot -n "__fish_use_subcommand" -a "stow" -d "Apply managed dotfiles with GNU Stow"
+complete -c dot -n "__fish_use_subcommand" -a "doctor" -d "Check core dotfiles health"
+complete -c dot -n "__fish_use_subcommand" -a "update" -d "Pull repo changes, update packages, re-stow"
+complete -c dot -n "__fish_use_subcommand" -a "gen-ssh-key" -d "Generate an SSH key for Git hosting"
+complete -c dot -n "__fish_use_subcommand" -a "package" -d "Manage Brewfile packages"
+complete -c dot -n "__fish_use_subcommand" -a "check-packages" -d "Check Brewfile packages against this machine"
+complete -c dot -n "__fish_use_subcommand" -a "completions" -d "Generate Fish completions for dot"
+complete -c dot -n "__fish_use_subcommand" -a "edit" -d "Open ~/.dotfiles in \$EDITOR"
+complete -c dot -n "__fish_use_subcommand" -a "link" -d "Symlink ~/.dotfiles/dot into ~/.local/bin"
+complete -c dot -n "__fish_use_subcommand" -a "unlink" -d "Remove ~/.local/bin/dot if it is a symlink"
+complete -c dot -n "__fish_use_subcommand" -a "help" -d "Show help text"
+
+complete -c dot -n "__fish_use_subcommand" -l yes -d "Skip confirmations"
+complete -c dot -n "__fish_use_subcommand" -l version -d "Show version"
+complete -c dot -n "__fish_use_subcommand" -s h -l help -d "Show help"
+
+complete -c dot -n "__fish_seen_subcommand_from stow" -a "--dry-run" -d "Preview symlink changes"
+complete -c dot -n "__fish_seen_subcommand_from package; and not __fish_seen_subcommand_from add remove update cleanup list help" -a "add remove update cleanup list help"
+complete -c dot -n "__fish_seen_subcommand_from package; and __fish_seen_subcommand_from add" -a "brew cask auto"
+complete -c dot -n "__fish_seen_subcommand_from package; and __fish_seen_subcommand_from update" -a "all"
+EOF
+
+  success "Generated $completions_file"
+  detail "Apply dotfiles with 'dot stow' to install the completion"
+}
+
 cmd_link() {
   local target_dir="/usr/local/bin"
   local link_path
@@ -1055,6 +1156,9 @@ main() {
       ;;
     check-packages)
       cmd_check_packages
+      ;;
+    completions)
+      cmd_completions
       ;;
     edit)
       cmd_edit
