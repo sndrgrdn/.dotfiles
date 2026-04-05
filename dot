@@ -197,6 +197,7 @@ COMMANDS
   stow            Apply managed dotfiles with GNU Stow
   doctor          Check core dotfiles health
   update          Pull repo changes, update packages, re-stow
+  gen-ssh-key     Generate an SSH key for Git hosting
   package         Manage Brewfile packages
   check-packages  Check Brewfile packages against this machine
   link            Symlink ~/.dotfiles/dot into ~/.local/bin
@@ -216,6 +217,9 @@ PACKAGE OPTIONS
   dot package add <name> [brew|cask|auto]
   dot package remove <name>
   dot package update [name|all]
+
+SSH KEY OPTIONS
+  dot gen-ssh-key [email@example.com]
 EOF
 }
 
@@ -689,6 +693,93 @@ cmd_update() {
   fi
 }
 
+cmd_gen_ssh_key() {
+  header "Generate SSH Key"
+
+  local email="${1:-}"
+  local domain key_name key_path backup_path
+
+  if [[ "${1:-}" == "-h" || "${1:-}" == "--help" ]]; then
+    cat <<'EOF'
+dot gen-ssh-key - Generate an ed25519 SSH key
+
+USAGE
+  dot gen-ssh-key [email@example.com]
+EOF
+    return 0
+  fi
+
+  if [[ -z "$email" ]]; then
+    read -r -p "Email for SSH key: " email
+  fi
+
+  if [[ -z "$email" ]]; then
+    error "Email is required"
+    return 1
+  fi
+
+  if [[ ! "$email" =~ ^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$ ]]; then
+    error "Invalid email: $email"
+    return 1
+  fi
+
+  domain="${email##*@}"
+  domain="${domain%%.*}"
+  domain="$(printf '%s' "$domain" | tr '[:upper:]' '[:lower:]' | tr -cd '[:alnum:]_-')"
+  [[ -n "$domain" ]] || domain="key"
+
+  key_name="id_ed25519_${domain}"
+  key_path="$HOME/.ssh/$key_name"
+
+  detail "Target key: $key_path"
+
+  mkdir -p "$HOME/.ssh"
+  chmod 700 "$HOME/.ssh"
+
+  if [[ -f "$key_path" ]]; then
+    warn "SSH key already exists at $key_path"
+    if ! confirm "Overwrite existing key?"; then
+      warn "SSH key generation cancelled"
+      return 0
+    fi
+
+    backup_path="${key_path}.backup.$(date +%Y%m%d_%H%M%S)"
+    cp "$key_path" "$backup_path"
+    if [[ -f "${key_path}.pub" ]]; then
+      cp "${key_path}.pub" "${backup_path}.pub"
+    fi
+    success "Backed up existing key to $backup_path"
+  fi
+
+  step "Generating SSH key"
+  if ! ssh-keygen -t ed25519 -C "$email" -f "$key_path" -N ""; then
+    error "Failed to generate SSH key"
+    return 1
+  fi
+  success "SSH key generated"
+
+  step "Adding key to ssh-agent"
+  if ! pgrep -u "$USER" ssh-agent >/dev/null 2>&1; then
+    eval "$(ssh-agent -s)" >/dev/null
+  fi
+
+  if ssh-add "$key_path" >/dev/null 2>&1; then
+    success "Key added to ssh-agent"
+  else
+    warn "Failed to add key to ssh-agent"
+  fi
+
+  if command_exists pbcopy; then
+    pbcopy < "${key_path}.pub"
+    success "Public key copied to clipboard"
+  else
+    warn "pbcopy not available; skipping clipboard copy"
+  fi
+
+  info "Public key: ${key_path}.pub"
+  info "Add it to your Git host SSH keys settings"
+}
+
 cmd_check_packages() {
   require_runtime_tools brew
   header "Check Packages"
@@ -931,6 +1022,9 @@ main() {
       ;;
     update)
       cmd_update
+      ;;
+    gen-ssh-key)
+      cmd_gen_ssh_key "$@"
       ;;
     package)
       cmd_package "$@"
