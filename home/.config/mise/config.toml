@@ -1,0 +1,7 @@
+[settings.ruby]
+compile = false
+
+[tools]
+bun = "latest"
+ruby = "latest"
+nodejs = "lts"

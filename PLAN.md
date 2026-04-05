@@ -58,9 +58,10 @@ Notes:
 1. Run preflight
 2. Prompt before major actions unless `--yes`
 3. Run `brew bundle --file ~/.dotfiles/Brewfile`
-4. If `fish` exists, apply Fish default-shell setup
-5. If bundle succeeds, run `stow`
-5. If bundle fails, stop immediately
+4. If bundle fails, stop immediately
+5. If `fish` exists, apply Fish default-shell setup
+6. Run `stow`
+7. `stow` should run `mise install` as a side effect after linking files
 
 Fish default-shell setup should copy the dmmulroy behavior closely:
 
@@ -82,6 +83,7 @@ Notes:
 - Stow all of `~/.dotfiles/home`
 - Fail loudly on conflicts
 - Support `--dry-run`
+- On non-dry-run, run `mise install` after stowing managed files
 - No automatic overwrite behavior
 - No automatic backup mode in normal operation
 
@@ -115,6 +117,7 @@ Doctor should:
    - `brew bundle --file ~/.dotfiles/Brewfile`
 6. Prompt separately before re-stowing unless `--yes`
 7. Run `stow`
+8. `stow` should run `mise install` as a side effect after linking files
 
 ### `dot link`
 
@@ -140,8 +143,11 @@ Behavior:
 Include:
 
 - `~/.config/fish/...`
+- `~/.config/gh/...`
 - `~/.config/git/...`
 - `~/.config/ghostty/config`
+- `~/.config/mise/...`
+- `~/.config/opencode/...`
 - `~/.config/starship.toml`
 
 Exclude:
@@ -177,11 +183,33 @@ Exclude:
 
 Minimal baseline:
 
-- `stow`
+- `1password`
+- `1password-cli`
+- `cleanshot`
+- `cursor`
+- `eza`
 - `fish`
+- `font-inter`
+- `font-jetbrains-mono-nerd-font`
+- `gh`
 - `git`
+- `gnupg`
 - `starship`
+- `fzf`
 - `ghostty`
+- `github`
+- `helium-browser`
+- `jq`
+- `kitlangton-hex`
+- `libpq`
+- `libyaml`
+- `mise`
+- `orbstack`
+- `raycast`
+- `ripgrep`
+- `stow`
+- `tailscale-app`
+- `zoxide`
 
 ## Implementation Order
 
