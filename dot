@@ -577,7 +577,6 @@ check_managed_path() {
 }
 
 cmd_doctor() {
-  require_runtime_tools brew stow
   header "Doctor"
 
   local issues=0
@@ -622,7 +621,7 @@ cmd_doctor() {
     warn "Fish is not installed"
   fi
 
-  if [[ -f "$BREWFILE" ]]; then
+  if [[ -f "$BREWFILE" ]] && command_exists brew; then
     step "Checking Brewfile compliance"
     if brew bundle check --file "$BREWFILE" >/dev/null 2>&1; then
       success "Brewfile is satisfied"
@@ -643,7 +642,7 @@ cmd_doctor() {
     done < <(managed_paths)
   fi
 
-  if [[ -f "$BREWFILE" ]]; then
+  if [[ -f "$BREWFILE" ]] && command_exists brew; then
     step "Checking Brewfile package status"
     if ! report_package_status; then
       ((issues+=1))
@@ -1009,13 +1008,22 @@ cmd_package() {
 
 cmd_edit() {
   local editor="${EDITOR:-cursor}"
+  local -a editor_cmd
 
-  if ! command_exists "$editor"; then
+  read -r -a editor_cmd <<< "$editor"
+
+  if [[ ${#editor_cmd[@]} -eq 0 ]] || ! command_exists "${editor_cmd[0]}"; then
     error "Editor not found: $editor"
     return 1
   fi
 
-  exec "$editor" "$DOTFILES_DIR"
+  exec "${editor_cmd[@]}" "$DOTFILES_DIR"
+}
+
+link_points_to_dot() {
+  local path="$1"
+  [[ -L "$path" ]] || return 1
+  [[ "$(readlink "$path" 2>/dev/null || true)" == "$DOTFILES_DIR/dot" ]]
 }
 
 cmd_completions() {
@@ -1075,6 +1083,16 @@ cmd_link() {
     return 1
   fi
 
+  if [[ -L "$link_path" ]] && ! link_points_to_dot "$link_path"; then
+    error "$link_path points to another target"
+    return 1
+  fi
+
+  if link_points_to_dot "$link_path"; then
+    success "Link already exists: $link_path -> $DOTFILES_DIR/dot"
+    return 0
+  fi
+
   if [[ -L "$link_path" ]]; then
     rm "$link_path"
   fi
@@ -1098,10 +1116,12 @@ cmd_unlink() {
   )
 
   for link_path in "${paths[@]}"; do
-    if [[ -L "$link_path" ]]; then
+    if link_points_to_dot "$link_path"; then
       rm "$link_path"
       success "Removed $link_path"
       found=true
+    elif [[ -L "$link_path" ]]; then
+      warn "Skipped unrelated symlink: $link_path"
     fi
   done
 
