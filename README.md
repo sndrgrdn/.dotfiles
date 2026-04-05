@@ -6,7 +6,7 @@ Personal macOS development environment managed with GNU Stow + Homebrew.
 
 ```bash
 # Clone and setup
-git clone https://github.com/username/.dotfiles.git ~/.dotfiles
+git clone https://github.com/sndrgrdn/.dotfiles.git ~/.dotfiles
 cd ~/.dotfiles
 ./dot init
 ```

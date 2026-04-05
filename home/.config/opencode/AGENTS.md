@@ -1,3 +1,5 @@
+I am `sndrgrdn` aka Sander Tuin on Github and other places.
+
 # AGENTS.MD
 
 Work style: telegraph; noun-phrases ok; drop grammar; min tokens.
