@@ -200,6 +200,7 @@ COMMANDS
   gen-ssh-key     Generate an SSH key for Git hosting
   package         Manage Brewfile packages
   check-packages  Check Brewfile packages against this machine
+  edit            Open ~/.dotfiles in $EDITOR
   link            Symlink ~/.dotfiles/dot into ~/.local/bin
   unlink          Remove ~/.local/bin/dot if it is a symlink
   help            Show this help text
@@ -933,6 +934,17 @@ cmd_package() {
   esac
 }
 
+cmd_edit() {
+  local editor="${EDITOR:-cursor}"
+
+  if ! command_exists "$editor"; then
+    error "Editor not found: $editor"
+    return 1
+  fi
+
+  exec "$editor" "$DOTFILES_DIR"
+}
+
 cmd_link() {
   local target_dir="/usr/local/bin"
   local link_path
@@ -1031,6 +1043,9 @@ main() {
       ;;
     check-packages)
       cmd_check_packages
+      ;;
+    edit)
+      cmd_edit
       ;;
     link)
       cmd_link
