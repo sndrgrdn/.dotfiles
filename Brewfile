@@ -1,3 +1,4 @@
+brew "delta"
 brew "eza"
 brew "fish"
 brew "fzf"
