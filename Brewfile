@@ -1,4 +1,3 @@
-brew "gum"
 brew "stow"
 brew "fish"
 brew "git"

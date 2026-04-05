@@ -25,7 +25,7 @@ Personal macOS dotfiles managed from `~/.dotfiles` with GNU Stow and Homebrew.
 
 ## Managed In V1
 
-- Fish config under `home/.config/fish/`
+- Fish config under `home/.config/fish/`, with `fish_variables` ignored by Git
 - Git config under `home/.config/git/`
 - Ghostty config under `home/.config/ghostty/config`
 - Starship config under `home/.config/starship.toml`
@@ -42,3 +42,4 @@ Excluded from the first pass:
 - The canonical package manifest is `~/.dotfiles/Brewfile`
 - The repo is the source of truth; `dot` applies it to your home directory
 - The first migration backs up old live files to `~/.dotfiles-backups/<timestamp>/`
+- The CLI uses plain Bash prompts and output
