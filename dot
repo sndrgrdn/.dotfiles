@@ -157,11 +157,14 @@ append_brewfile_entry() {
   local package_type="$1" package_name="$2"
   local temp_file
   temp_file=$(mktemp)
+  trap 'rm -f "$temp_file"' RETURN
 
-  # Append new entry then rebuild file with sorted sections
   printf '%s "%s"\n' "$package_type" "$package_name" >> "$BREWFILE"
 
-  grep '^brew ' "$BREWFILE" | sort -f > "$temp_file"
+  # Preserve non-brew/cask lines, then sorted brew and cask sections
+  grep -v '^brew \|^cask ' "$BREWFILE" | grep -v '^$' > "$temp_file" || true
+  [[ -s "$temp_file" ]] && printf '\n' >> "$temp_file"
+  grep '^brew ' "$BREWFILE" | sort -f >> "$temp_file"
   if grep -q '^cask ' "$BREWFILE"; then
     printf '\n' >> "$temp_file"
     grep '^cask ' "$BREWFILE" | sort -f >> "$temp_file"
@@ -627,6 +630,7 @@ cmd_package_add() {
     case "$1" in
       -b|--brew) package_type="brew" ;;
       -c|--cask) package_type="cask" ;;
+      -*) error "Unknown flag: $1"; return 1 ;;
       *) package_name="$1" ;;
     esac
     shift
@@ -749,7 +753,8 @@ complete -c dot -n "__fish_use_subcommand" -s h -l help -d "Show help"
 
 complete -c dot -n "__fish_seen_subcommand_from stow" -a "--dry-run" -d "Preview symlink changes"
 complete -c dot -n "__fish_seen_subcommand_from package; and not __fish_seen_subcommand_from add remove update cleanup list help" -a "add remove update cleanup list help"
-complete -c dot -n "__fish_seen_subcommand_from package; and __fish_seen_subcommand_from add" -a "brew cask auto"
+complete -c dot -n "__fish_seen_subcommand_from package; and __fish_seen_subcommand_from add" -s b -l brew -d "Add as brew formula"
+complete -c dot -n "__fish_seen_subcommand_from package; and __fish_seen_subcommand_from add" -s c -l cask -d "Add as cask"
 complete -c dot -n "__fish_seen_subcommand_from package; and __fish_seen_subcommand_from update" -a "all"
 EOF
 
