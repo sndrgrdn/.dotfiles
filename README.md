@@ -80,7 +80,7 @@ dot gen-ssh-key       # Generate ed25519 key by email domain
 
 ```bash
 dot package add ripgrep
-dot package add cursor cask
+dot package add cursor --cask
 ```
 
 ### Modify Configurations

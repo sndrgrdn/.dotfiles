@@ -155,7 +155,19 @@ detect_package_type() {
 
 append_brewfile_entry() {
   local package_type="$1" package_name="$2"
-  printf '\n%s "%s"\n' "$package_type" "$package_name" >> "$BREWFILE"
+  local temp_file
+  temp_file=$(mktemp)
+
+  # Append new entry then rebuild file with sorted sections
+  printf '%s "%s"\n' "$package_type" "$package_name" >> "$BREWFILE"
+
+  grep '^brew ' "$BREWFILE" | sort -f > "$temp_file"
+  if grep -q '^cask ' "$BREWFILE"; then
+    printf '\n' >> "$temp_file"
+    grep '^cask ' "$BREWFILE" | sort -f >> "$temp_file"
+  fi
+
+  mv "$temp_file" "$BREWFILE"
 }
 
 remove_brewfile_entry() {
@@ -590,7 +602,7 @@ dot package - Manage Brewfile packages
 
 USAGE
   dot package list
-  dot package add <name> [brew|cask|auto]
+  dot package add <name> [-b|--brew] [-c|--cask]
   dot package remove <name>
   dot package update [name|all]
   dot package cleanup
@@ -610,12 +622,19 @@ cmd_package_list() {
 cmd_package_add() {
   require_runtime_tools brew
 
-  local package_name="${1:-}" package_type="${2:-auto}"
+  local package_name="" package_type="auto"
+  while [[ $# -gt 0 ]]; do
+    case "$1" in
+      -b|--brew) package_type="brew" ;;
+      -c|--cask) package_type="cask" ;;
+      *) package_name="$1" ;;
+    esac
+    shift
+  done
 
   [[ -z "$package_name" ]] && { error "Package name required"; cmd_package_help; return 1; }
 
   [[ "$package_type" == "auto" ]] && package_type=$(detect_package_type "$package_name")
-  [[ "$package_type" != "brew" && "$package_type" != "cask" ]] && { error "Package type must be brew, cask, or auto"; return 1; }
 
   package_is_declared "$package_name" && { warn "$package_name is already declared in Brewfile"; return 0; }
 
@@ -806,7 +825,7 @@ STOW OPTIONS
 
 PACKAGE OPTIONS
   dot package list
-  dot package add <name> [brew|cask|auto]
+  dot package add <name> [-b|--brew] [-c|--cask]
   dot package remove <name>
   dot package update [name|all]
 

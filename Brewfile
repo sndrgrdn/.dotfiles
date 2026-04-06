@@ -1,5 +1,7 @@
+brew "bat"
 brew "delta"
 brew "eza"
+brew "fd"
 brew "fish"
 brew "fzf"
 brew "gh"

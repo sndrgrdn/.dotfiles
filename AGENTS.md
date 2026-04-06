@@ -54,7 +54,7 @@ dot stow              # Apply managed dotfiles to ~/
 dot stow --dry-run    # Preview changes without applying
 dot doctor            # Health check (symlinks, packages, tools)
 dot update            # Pull repo, upgrade packages, restow
-dot package add X     # Add to Brewfile and install
+dot package add X     # Add to Brewfile and install (auto-detects type, or use --brew/-b, --cask/-c)
 dot package remove X  # Remove from Brewfile
 dot edit              # Open repo in $EDITOR
 dot gen-ssh-key       # Generate ed25519 key by email domain
