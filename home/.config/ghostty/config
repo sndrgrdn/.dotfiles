@@ -1,12 +1,19 @@
 # Theme
 theme = Catppuccin Macchiato
 
+# Updates
+auto-update-channel = tip
+
 # Shell integrations
 quit-after-last-window-closed = true
 
 # Font
 font-size = 13
-font-family = "JetBrains Mono"
+font-family = "JetBrainsMono Nerd Font"
+font-style = Regular
+font-style-italic = Regular Italic
+font-style-bold = Bold
+font-style-bold-italic = Bold Italic
 
 # Window
 window-padding-color = background

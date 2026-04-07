@@ -1,34 +1,6 @@
 {
   "$schema": "https://opencode.ai/config.json",
   "autoupdate": true,
-  "share": "manual",
-  "snapshot": true,
-  "permission": {
-    "external_directory": {
-      "*": "ask",
-      "~/.config/opencode/**": "allow",
-      "~/.local/share/opencode/**": "allow",
-      "~/.local/share/opensrc/repos/**": "allow",
-      "~/.local/share/mise/**": "allow",
-      "~/Developer/**": "allow",
-      "~/.agents/**": "allow"
-    },
-    "read": {
-      "~/.ssh/**": "deny"
-    },
-    "bash": {
-      "git push*": "ask",
-      "*credentials:edit*": "deny"
-    }
-  },
-  "plugin": [
-    "opencode-cursor-oauth@latest"
-  ],
-  "provider": {
-    "cursor": {
-      "name": "Cursor"
-    }
-  },
   "mcp": {
     "context7": {
       "type": "remote",
@@ -39,12 +11,42 @@
       "url": "https://mcp.grep.app"
     },
     "opensrc": {
-      "type": "local",
       "command": [
         "npx",
         "-y",
         "opensrc-mcp"
-      ]
+      ],
+      "type": "local"
     }
-  }
+  },
+  "permission": {
+    "bash": {
+      "*credentials:edit*": "deny",
+      "git push*": "ask"
+    },
+    "external_directory": {
+      "*": "ask",
+      "/tmp/side-quest-*/**": "allow",
+      "~/.agents/**": "allow",
+      "~/.config/opencode/**": "allow",
+      "~/.dotfiles/**": "allow",
+      "~/.local/share/mise/**": "allow",
+      "~/.local/share/opencode/**": "allow",
+      "~/.local/share/opensrc/repos/**": "allow",
+      "~/Developer/**": "allow"
+    },
+    "read": {
+      "~/.ssh/**": "deny"
+    }
+  },
+  "plugin": [
+    "opencode-cursor-oauth@latest"
+  ],
+  "provider": {
+    "cursor": {
+      "name": "Cursor"
+    }
+  },
+  "share": "manual",
+  "snapshot": true
 }

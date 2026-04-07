@@ -33,6 +33,7 @@ alias be 'bundle exec'
 # Tools
 alias g 'git'
 alias gs 'git st'
+alias lg 'lazygit'
 alias oc 'opencode'
 alias ccx 'claude --dangerously-skip-permissions'
 alias reload 'exec fish'
