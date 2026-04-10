@@ -8,3 +8,4 @@ compile = false
 bun = "latest"
 ruby = "latest"
 nodejs = "lts"
+uv = "latest"
