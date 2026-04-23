@@ -37,6 +37,7 @@ alias lg 'lazygit'
 alias oc 'opencode'
 alias ccx 'claude --dangerously-skip-permissions'
 alias reload 'exec fish'
+alias p 'clear && pi'
 
 # Disable automatic completion generation for oc to avoid errors
 complete -c oc -e
