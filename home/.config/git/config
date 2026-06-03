@@ -1,6 +1,5 @@
 [core]
   excludesfile = ~/.config/git/gitignore_global
-	pager = delta
 [alias]
   aa = add --all
   br = branch
@@ -20,9 +19,5 @@
 	smudge = git-lfs smudge -- %f
 	process = git-lfs filter-process
 	required = true
-[interactive]
-	diffFilter = delta --color-only
-[delta]
-	navigate = true
 [merge]
 	conflictStyle = zdiff3
