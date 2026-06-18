@@ -1,5 +1,5 @@
 # Theme
-theme = Catppuccin Macchiato
+theme = catppuccin-macchiato.conf
 
 # Updates
 auto-update-channel = tip
@@ -10,21 +10,23 @@ quit-after-last-window-closed = true
 
 # Font
 font-size = 13
-font-family = "JetBrainsMono Nerd Font"
+font-family = TX-02
 font-style = Regular
-font-style-italic = Regular Italic
+font-style-italic = Regular Oblique
 font-style-bold = Bold
-font-style-bold-italic = Bold Italic
+font-style-bold-italic = Bold Oblique
+adjust-cell-height = 10%
 
 # Window
 window-width = 120
 window-height = 50
 window-padding-color = background
 window-padding-balance = true
-# window-padding-x = 10
-# window-padding-y = 10
 
 # Macos
 macos-option-as-alt = true
 macos-titlebar-proxy-icon = hidden
 macos-titlebar-style = tabs
+
+# Mouse
+mouse-hide-while-typing = true

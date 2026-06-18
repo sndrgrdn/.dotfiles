@@ -251,6 +251,33 @@ report_package_status() {
   return 1
 }
 
+show_brew_bundle_issues() {
+  while IFS= read -r line; do
+    [[ "$line" == →* ]] && detail "${line#→ }"
+  done < <(brew bundle check --verbose --file "$BREWFILE" "$@" 2>&1)
+}
+
+check_brewfile_compliance() {
+  if brew bundle check --no-upgrade --file "$BREWFILE" >/dev/null 2>&1; then
+    success "All Brewfile packages are installed"
+  else
+    error "Brewfile packages are not installed"
+    show_brew_bundle_issues --no-upgrade
+    detail "Run: brew bundle install --file $BREWFILE"
+    return 1
+  fi
+
+  if brew bundle check --file "$BREWFILE" >/dev/null 2>&1; then
+    success "Brewfile is up to date"
+  else
+    warn "Some Brewfile packages have available updates"
+    show_brew_bundle_issues
+    detail "Run: brew bundle install --file $BREWFILE"
+  fi
+
+  return 0
+}
+
 # ═══════════════════════════════════════════════════════════════════════════════
 # SYSTEM BOOTSTRAP
 # ═══════════════════════════════════════════════════════════════════════════════
@@ -443,7 +470,7 @@ cmd_doctor() {
 
   if [[ -f "$BREWFILE" ]] && command_exists brew; then
     step "Checking Brewfile compliance"
-    brew bundle check --file "$BREWFILE" >/dev/null 2>&1 && success "Brewfile is satisfied" || { error "Brewfile packages are missing"; ((issues+=1)); }
+    check_brewfile_compliance || ((issues+=1))
   fi
 
   if [[ -d "$HOME_DIR" ]]; then
@@ -456,7 +483,7 @@ cmd_doctor() {
 
   if [[ -f "$BREWFILE" ]] && command_exists brew; then
     step "Checking Brewfile package status"
-    report_package_status || ((issues+=1))
+    report_package_status
   fi
 
   step "Checking link health"
