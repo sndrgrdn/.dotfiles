@@ -1,6 +1,5 @@
 # Theme
-# theme = catppuccin-macchiato.conf
-theme = light:github-light.conf,dark:github-dark.conf
+theme = catppuccin-mocha.conf
 
 # Updates
 auto-update-channel = tip
