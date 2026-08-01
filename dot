@@ -196,9 +196,9 @@ install_brewfile_packages_individually() {
     step "Installing $kind package: $package"
 
     if [[ "$kind" == "cask" ]]; then
-      brew install --cask "$package" && ((installed_count++)) || { warn "Failed to install cask: $package"; failed_packages+=("cask:$package"); }
+      brew install --cask "$package" && ((++installed_count)) || { warn "Failed to install cask: $package"; failed_packages+=("cask:$package"); }
     else
-      brew install "$package" && ((installed_count++)) || { warn "Failed to install brew package: $package"; failed_packages+=("brew:$package"); }
+      brew install "$package" && ((++installed_count)) || { warn "Failed to install brew package: $package"; failed_packages+=("brew:$package"); }
     fi
   done < <(brewfile_entries)
 
@@ -424,6 +424,98 @@ run_stow() {
 }
 
 # ═══════════════════════════════════════════════════════════════════════════════
+# MACOS DEFAULTS
+# ═══════════════════════════════════════════════════════════════════════════════
+
+dock_item() {
+  printf '<dict><key>tile-data</key><dict><key>file-data</key><dict><key>_CFURLString</key><string>%s</string><key>_CFURLStringType</key><integer>0</integer></dict></dict></dict>' "$1"
+}
+
+apply_macos_defaults() {
+  [[ "$(uname -s)" == "Darwin" ]] || { warn "Not on macOS; skipping system defaults"; return 0; }
+
+  header "macOS Defaults"
+
+  step "Dock: clearing pinned apps, folders, and recents"
+  defaults write com.apple.dock persistent-apps -array
+  defaults write com.apple.dock persistent-others -array
+  defaults write com.apple.dock show-recents -bool false
+
+  step "Dock: pinning apps"
+  local apps=(
+    "/Applications/Helium.app"
+    "/Applications/Ghostty.app"
+    "/Applications/Zed.app"
+    "/System/Applications/System Settings.app"
+  )
+  local items=() app
+  for app in "${apps[@]}"; do
+    if [[ -d "$app" ]]; then
+      items+=("$(dock_item "$app")")
+    else
+      warn "Skipping dock item (not installed): $app"
+    fi
+  done
+  if [[ ${#items[@]} -gt 0 ]]; then
+    defaults write com.apple.dock persistent-apps -array "${items[@]}"
+  fi
+
+  step "Dock: auto-hide, faster animation, no space reordering"
+  defaults write com.apple.dock autohide -bool true
+  defaults write com.apple.dock autohide-delay -float 0
+  defaults write com.apple.dock autohide-time-modifier -float 0.5
+  defaults write com.apple.dock mru-spaces -bool false
+
+  step "Keyboard: faster key repeat, no press-and-hold"
+  defaults write NSGlobalDomain KeyRepeat -int 2
+  defaults write NSGlobalDomain InitialKeyRepeat -int 15
+  defaults write NSGlobalDomain ApplePressAndHoldEnabled -bool false
+
+  step "Trackpad: tracking speed two notches below max"
+  defaults write NSGlobalDomain com.apple.trackpad.scaling -float 2.0
+
+  step "Text: disabling smart quotes, dashes, and period"
+  defaults write NSGlobalDomain NSAutomaticQuoteSubstitutionEnabled -bool false
+  defaults write NSGlobalDomain NSAutomaticDashSubstitutionEnabled -bool false
+  defaults write NSGlobalDomain NSAutomaticPeriodSubstitutionEnabled -bool false
+
+  step "Keyboard: full keyboard access for all controls"
+  defaults write NSGlobalDomain AppleKeyboardUIMode -int 3
+
+  step "Trackpad: tap to click for this user and login screen"
+  defaults write com.apple.AppleMultitouchTrackpad Clicking -bool true
+  defaults write com.apple.driver.AppleBluetoothMultitouch.trackpad Clicking -bool true
+  defaults -currentHost write NSGlobalDomain com.apple.mouse.tapBehavior -int 1
+  defaults write NSGlobalDomain com.apple.mouse.tapBehavior -int 1
+
+  step "Appearance: dark mode"
+  defaults write NSGlobalDomain AppleInterfaceStyle -string "Dark"
+
+  step "Finder: hidden files, extensions, column view, path bar"
+  defaults write com.apple.finder AppleShowAllFiles -bool true
+  defaults write com.apple.finder FXPreferredViewStyle -string "clmv"
+  defaults write NSGlobalDomain AppleShowAllExtensions -bool true
+  defaults write com.apple.finder ShowPathbar -bool true
+  defaults write com.apple.finder QuitMenuItem -bool true
+  chflags nohidden "$HOME/Library"
+
+  step "Save panels: expand by default"
+  defaults write NSGlobalDomain NSNavPanelExpandedStateForSaveMode -bool true
+  defaults write NSGlobalDomain NSNavPanelExpandedStateForSaveMode2 -bool true
+
+  step "Lock screen: immediate password, 30 min screensaver and display sleep"
+  defaults write com.apple.screensaver askForPassword -int 1
+  defaults write com.apple.screensaver askForPasswordDelay -int 0
+  defaults -currentHost write com.apple.screensaver idleTime -int 1800
+  sudo pmset -a displaysleep 30 || warn "Failed to set display sleep timeout"
+
+  killall Dock 2>/dev/null || true
+  killall Finder 2>/dev/null || true
+  success "macOS defaults applied"
+  info "Log out and back in for all changes to take effect"
+}
+
+# ═══════════════════════════════════════════════════════════════════════════════
 # COMMANDS
 # ═══════════════════════════════════════════════════════════════════════════════
 
@@ -440,6 +532,7 @@ cmd_init() {
   run_brew_bundle
   ensure_opencode
   setup_fish_shell
+  apply_macos_defaults
 
   if ! confirm "Apply dotfiles with stow?"; then
     warn "Skipped stow"

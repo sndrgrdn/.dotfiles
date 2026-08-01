@@ -8,6 +8,9 @@ Personal macOS development environment managed with GNU Stow + Homebrew.
 # Clone and setup
 git clone https://github.com/sndrgrdn/.dotfiles.git ~/.dotfiles
 cd ~/.dotfiles
+sudo -v
+sudo softwareupdate -i -a
+xcode-select --install
 ./dot init
 ```
 
@@ -25,7 +28,6 @@ After installation, the `dot` command is available globally for ongoing manageme
 │   ├── mise/           # Runtime version manager
 │   ├── gh/             # GitHub CLI config
 │   ├── ghostty/        # Terminal emulator
-│   ├── opencode/       # AI agent config
 │   └── starship.toml   # Shell prompt
 └── README.md
 ```
