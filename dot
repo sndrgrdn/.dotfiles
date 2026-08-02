@@ -96,11 +96,11 @@ require_runtime_tools() {
 run_logged() {
   local stream=false
   [[ "$1" == "--stream" ]] && { stream=true; shift; }
-  
+
   local title="$1"; shift
   local log_file exit_code
   log_file=$(mktemp)
-  
+
   if [[ "$stream" == true ]]; then
     detail "Running: $*"
     "$@" 2>&1 | tee "$log_file"
@@ -109,12 +109,12 @@ run_logged() {
     "$@" >"$log_file" 2>&1
     exit_code=$?
   fi
-  
+
   if [[ $exit_code -eq 0 ]]; then
     rm -f "$log_file"
     return 0
   fi
-  
+
   error "$title failed"
   [[ -s "$log_file" ]] && { detail "Command output:"; show_log_excerpt "$log_file"; }
   rm -f "$log_file"
@@ -323,16 +323,41 @@ preflight_init() {
 }
 
 run_mise_install() {
+  if [[ -x "${HOME}/.local/bin/mise" ]]; then
+    export PATH="${HOME}/.local/bin:${PATH}"
+  fi
+
   command_exists mise || { warn "mise is not installed; skipping runtime install"; return 0; }
 
   step "Installing mise-managed runtimes"
   run_logged "mise install" mise install
   success "mise runtimes installed"
 
+  step "Generating mise fish completions"
+  local completion_file="${HOME_DIR}/.config/fish/completions/mise.fish"
+  mkdir -p "$(dirname "$completion_file")"
+  if mise completion fish > "$completion_file" 2>/dev/null; then
+    success "mise completions written to $completion_file"
+  else
+    warn "Failed to generate mise completions (usage may be missing)"
+  fi
+
   if command_exists corepack; then
     step "Enabling Corepack"
     run_logged "corepack enable" corepack enable && success "Corepack enabled" || warn "Failed to enable Corepack"
   fi
+}
+
+ensure_mise() {
+  command_exists mise && { info "mise already installed"; return 0; }
+
+  if ! confirm "Install mise now?"; then
+    warn "Skipped mise install"
+    return 0
+  fi
+
+  step "Installing mise"
+  curl https://mise.run | sh && success "mise installed" || warn "Failed to install mise"
 }
 
 ensure_opencode() {
@@ -530,6 +555,7 @@ cmd_init() {
   fi
 
   run_brew_bundle
+  ensure_mise
   ensure_opencode
   setup_fish_shell
   apply_macos_defaults
