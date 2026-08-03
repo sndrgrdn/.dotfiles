@@ -17,12 +17,6 @@ font-style-bold = Bold
 font-style-bold-italic = Bold Oblique
 adjust-cell-height = 10%
 
-# Window
-window-width = 120
-window-height = 50
-window-padding-color = background
-window-padding-balance = true
-
 # Macos
 macos-option-as-alt = true
 macos-titlebar-proxy-icon = hidden
