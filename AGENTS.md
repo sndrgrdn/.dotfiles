@@ -14,7 +14,6 @@ macOS dev env via GNU Stow + Homebrew. Fish + Git + Mise + Ghostty.
 │   ├── mise/           # Runtime version manager
 │   ├── gh/             # GitHub CLI config
 │   ├── ghostty/        # Terminal emulator
-│   ├── opencode/       # AI agent config
 │   └── starship.toml   # Shell prompt
 └── README.md
 ```
@@ -34,7 +33,6 @@ macOS dev env via GNU Stow + Homebrew. Fish + Git + Mise + Ghostty.
 
 - Stow layout: `home/` mirrors `~`, stow creates symlinks
 - Fish: minimal config, no greeting
-- Git: zdiff3 merge, rebase on pull
 - Brewfile: formulas first, then casks, alphabetized
 - Mise: latest Ruby/Node, bun for package management
 - Theme: Catppuccin Macchiato across tools
