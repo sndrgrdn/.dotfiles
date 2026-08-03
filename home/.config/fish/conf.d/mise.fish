@@ -1,1 +1,2 @@
-~/.local/bin/mise activate fish | source # added by https://mise.run/fish
+# Mise (full activation: per-dir tool switching, [env] vars, hooks/tasks)
+~/.local/bin/mise activate fish | source
