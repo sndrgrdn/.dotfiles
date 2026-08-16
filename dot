@@ -360,6 +360,41 @@ ensure_mise() {
   curl https://mise.run | sh && success "mise installed" || warn "Failed to install mise"
 }
 
+setup_developer_dir() {
+  local dev_dir="${HOME}/Developer"
+  local mise_toml="${dev_dir}/.mise.toml"
+
+  if [[ -d "$dev_dir" ]]; then
+    info "Developer directory already exists: $dev_dir"
+  else
+    step "Creating $dev_dir"
+    mkdir -p "$dev_dir"
+    success "Developer directory created"
+  fi
+
+  if [[ -f "$mise_toml" ]]; then
+    info "mise config already exists: $mise_toml"
+  else
+    step "Writing $mise_toml"
+    cat > "$mise_toml" <<'EOF'
+[env]
+_.path = "{{ cwd }}/bin"
+EOF
+    success "mise config written"
+  fi
+
+  if command_exists mise; then
+    step "Trusting $mise_toml"
+    if run_logged "mise trust" mise trust "$mise_toml"; then
+      success "mise config trusted"
+    else
+      warn "Failed to trust mise config"
+    fi
+  else
+    warn "mise is not installed; skipping config trust"
+  fi
+}
+
 ensure_opencode() {
   command_exists opencode && { info "OpenCode already installed"; return 0; }
 
@@ -556,6 +591,7 @@ cmd_init() {
 
   run_brew_bundle
   ensure_mise
+  setup_developer_dir
   ensure_opencode
   setup_fish_shell
   apply_macos_defaults
@@ -862,8 +898,9 @@ cmd_package() {
 }
 
 cmd_edit() {
-  local editor="${EDITOR:-cursor}"
-  command -v "${editor%% *}" >/dev/null 2>&1 || { error "Editor not found: $editor"; return 1; }
+  local editor="${VISUAL:-}"
+  [ -n "$editor" ] || { error "No visual editor set. Add 'set -gx VISUAL zed' to ~/.config/fish/config.fish."; return 1; }
+  command -v "${editor%% *}" >/dev/null 2>&1 || { error "Visual editor not found: $editor"; return 1; }
   exec $editor "$DOTFILES_DIR"
 }
 
@@ -888,7 +925,7 @@ complete -c dot -n "__fish_use_subcommand" -a "gen-ssh-key" -d "Generate an SSH 
 complete -c dot -n "__fish_use_subcommand" -a "package" -d "Manage Brewfile packages"
 complete -c dot -n "__fish_use_subcommand" -a "check-packages" -d "Check Brewfile packages against this machine"
 complete -c dot -n "__fish_use_subcommand" -a "completions" -d "Generate Fish completions for dot"
-complete -c dot -n "__fish_use_subcommand" -a "edit" -d "Open ~/.dotfiles in \$EDITOR"
+complete -c dot -n "__fish_use_subcommand" -a "edit" -d "Open ~/.dotfiles in \$VISUAL"
 complete -c dot -n "__fish_use_subcommand" -a "link" -d "Symlink ~/.dotfiles/dot into ~/.local/bin"
 complete -c dot -n "__fish_use_subcommand" -a "unlink" -d "Remove ~/.local/bin/dot if it is a symlink"
 complete -c dot -n "__fish_use_subcommand" -a "help" -d "Show help text"
@@ -961,7 +998,7 @@ COMMANDS
   package         Manage Brewfile packages
   check-packages  Check Brewfile packages against this machine
   completions     Generate Fish completions for dot
-  edit            Open ~/.dotfiles in $EDITOR
+  edit            Open ~/.dotfiles in $VISUAL
   link            Symlink ~/.dotfiles/dot into ~/.local/bin
   unlink          Remove ~/.local/bin/dot if it is a symlink
   help            Show this help text
