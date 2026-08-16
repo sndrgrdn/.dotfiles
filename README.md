@@ -56,7 +56,7 @@ dot package cleanup           # Clean Homebrew cache
 ```bash
 dot stow              # Apply managed dotfiles to ~/
 dot stow --dry-run    # Preview changes without applying
-dot edit              # Open repo in $EDITOR
+dot edit              # Open repo in $VISUAL
 dot gen-ssh-key       # Generate ed25519 key by email domain
 ```
 

@@ -1,2 +1,3 @@
-# Mise (full activation: per-dir tool switching, [env] vars, hooks/tasks)
-~/.local/bin/mise activate fish | source
+# Mise (shims activation: shims dir moved to front of PATH so mise tools
+# beat /usr/bin system binaries like ruby; brew-first ordering untouched)
+~/.local/bin/mise activate fish --shims | source

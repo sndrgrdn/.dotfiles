@@ -10,8 +10,8 @@ end
 
 function c
   if test (count $argv) -eq 0
-    open . -a "Cursor"
+    zed .
   else
-    open $argv -a "Cursor"
+    zed $argv
   end
 end

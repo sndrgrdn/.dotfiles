@@ -1,5 +1,5 @@
-# Theme
-theme = catppuccin-macchiato.conf
+# Ghostty theme
+theme = Catppuccin Macchiato
 
 # Updates
 auto-update-channel = tip
@@ -9,18 +9,39 @@ shell-integration = fish
 quit-after-last-window-closed = true
 
 # Font
-font-size = 13
 font-family = TX-02
 font-style = Regular
 font-style-italic = Regular Oblique
 font-style-bold = Bold
 font-style-bold-italic = Bold Oblique
+
+# Font size
+font-size = 13
+
+# Line height
 adjust-cell-height = 10%
+
+# Set the background-opacity to be fully opaque
+background-opacity = 0.97
+
+# Cursor style
+cursor-style-blink = true
+
+# Clipboard settings
+clipboard-read = allow
+clipboard-write = allow
 
 # Macos
 macos-option-as-alt = true
-macos-titlebar-proxy-icon = hidden
-macos-titlebar-style = tabs
+macos-titlebar-style = hidden
+
+# window
+window-colorspace = display-p3
+window-padding-color = background
+window-padding-balance = true
+window-padding-x = 14
+window-padding-y = 14
 
 # Mouse
 mouse-hide-while-typing = true
+mouse-scroll-multiplier = 0.95
