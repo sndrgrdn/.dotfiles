@@ -37,6 +37,8 @@ alias oc 'opencode'
 alias ccx 'claude --dangerously-skip-permissions'
 alias reload 'exec fish'
 alias p 'clear && pi'
+# Update all mise-managed tools now, bypassing mise's release-age cooldown
+alias mup 'env MISE_MINIMUM_RELEASE_AGE=0 mise up'
 
 # Disable automatic completion generation for oc to avoid errors
 complete -c oc -e

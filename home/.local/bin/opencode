@@ -1,0 +1,6 @@
+#!/bin/bash
+# github: pin per omarchy #6886/#6887: bare registry names resolved to stale
+# aqua entries; explicit github backend installs cleanly.
+export MISE_MINIMUM_RELEASE_AGE=0
+mise use -g --quiet "github:anomalyco/opencode" || exit 1
+exec mise x "github:anomalyco/opencode" -- opencode "$@"

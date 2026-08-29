@@ -1,0 +1,6 @@
+#!/bin/bash
+# github: pin per omarchy #6887: avoids flaky aqua attestation verification
+# and mise's npm trust policy entirely.
+export MISE_MINIMUM_RELEASE_AGE=0
+mise use -g --quiet "github:earendil-works/pi" || exit 1
+exec mise x "github:earendil-works/pi" -- pi "$@"

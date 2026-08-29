@@ -22,8 +22,8 @@ default_disable = false
 # - focus_follows_mouse: moving the mouse into a window focuses it
 # - mouse_follows_focus: when focus changes, move the mouse to the focused window
 # - mouse_hides_on_focus: hide the mouse cursor after focusing a window
-focus_follows_mouse = false
-mouse_follows_focus = true
+focus_follows_mouse = true
+mouse_follows_focus = false
 mouse_hides_on_focus = false
 # focus_follows_mouse_disable_hotkey temporarily suspends focus-follows-mouse while held
 # e.g. "Fn"; omit or set to null to keep focus-follows-mouse always active
@@ -78,6 +78,13 @@ hot_reload = true
 # You can set different layouts per workspace using `workspace_rules`.
 mode = "bsp"
 
+# Center the lone tiled window on-screen when a workspace has exactly one window.
+# Disable to let it fill the area instead (full width/height); hyper + F also covers fullscreen.
+[settings.layout.bsp]
+center_single_window = true
+# Height of the lone centered window as a fraction of usable height (0.1..1.0)
+center_single_window_height_ratio = 1.0
+
 # these settings only apply when layout mode == "master_stack"
 [settings.layout.master_stack]
 # Fraction of space reserved for the master area (0.05..0.95)
@@ -98,7 +105,7 @@ new_window_placement = "master"
 # these settings only apply when layout mode == "scrolling"
 [settings.layout.scrolling]
 # width of the active column (0..1 of screen width)
-column_width_ratio = 0.7
+column_width_ratio = 0.49
 # min_column_width_ratio / max_column_width_ratio: clamp bounds used by resize commands
 min_column_width_ratio = 0.3
 max_column_width_ratio = 0.9
@@ -250,10 +257,10 @@ drag_swap_fraction = 0.3
 #   workspace instead of wrapping around
 # - reapply_app_rules_on_title_change: if true, app rules are re-evaluated when a window's title changes
 enabled = true
-default_workspace_count = 9
+default_workspace_count = 10
 auto_assign_windows = true
 preserve_focus_per_workspace = true
-workspace_auto_back_and_forth = true
+workspace_auto_back_and_forth = false
 prevent_wrapping = false
 reapply_app_rules_on_title_change = false
 
@@ -434,6 +441,10 @@ hyper = "Meta + Alt + Ctrl"
 
 "hyper + Tab" = "next_workspace"
 "hyper + Shift + Tab" = "prev_workspace"
+"hyper + Grave" = "switch_to_last_workspace"
+
+"Alt + Tab" = "next_window"
+"Alt + Shift + Tab" = "prev_window"
 
 "hyper + 1" = { switch_to_workspace = 0 }
 "hyper + 2" = { switch_to_workspace = 1 }
@@ -444,40 +455,44 @@ hyper = "Meta + Alt + Ctrl"
 "hyper + 7" = { switch_to_workspace = 6 }
 "hyper + 8" = { switch_to_workspace = 7 }
 "hyper + 9" = { switch_to_workspace = 8 }
+"hyper + 0" = { switch_to_workspace = 9 }
 
-"hyper + Shift + 1" = { move_window_to_workspace = 0 }
-"hyper + Shift + 2" = { move_window_to_workspace = 1 }
-"hyper + Shift + 3" = { move_window_to_workspace = 2 }
-"hyper + Shift + 4" = { move_window_to_workspace = 3 }
-"hyper + Shift + 5" = { move_window_to_workspace = 4 }
-"hyper + Shift + 6" = { move_window_to_workspace = 5 }
-"hyper + Shift + 7" = { move_window_to_workspace = 6 }
-"hyper + Shift + 8" = { move_window_to_workspace = 7 }
-"hyper + Shift + 9" = { move_window_to_workspace = 8 }
+"hyper + Shift + 1" = { move_window_to_workspace = { workspace = 0, follow = true } }
+"hyper + Shift + 2" = { move_window_to_workspace = { workspace = 1, follow = true } }
+"hyper + Shift + 3" = { move_window_to_workspace = { workspace = 2, follow = true } }
+"hyper + Shift + 4" = { move_window_to_workspace = { workspace = 3, follow = true } }
+"hyper + Shift + 5" = { move_window_to_workspace = { workspace = 4, follow = true } }
+"hyper + Shift + 6" = { move_window_to_workspace = { workspace = 5, follow = true } }
+"hyper + Shift + 7" = { move_window_to_workspace = { workspace = 6, follow = true } }
+"hyper + Shift + 8" = { move_window_to_workspace = { workspace = 7, follow = true } }
+"hyper + Shift + 9" = { move_window_to_workspace = { workspace = 8, follow = true } }
+"hyper + Shift + 0" = { move_window_to_workspace = { workspace = 9, follow = true } }
 
-# Move window to another display (",": display left, ".": display right)
-"hyper + Shift + Comma" = { move_window_to_display = { selector = "left" } }
-"hyper + Shift + Period" = { move_window_to_display = { selector = "right" } }
+# Move window to a display (Comma: Built-in Retina, Period: Studio Display XDR)
+"hyper + Shift + Comma" = { move_window_to_display = { selector = "37D8832A-2D66-02CA-B9F7-8F30A301B230" } }
+"hyper + Shift + Period" = { move_window_to_display = { selector = "CE64D036-5B06-46FE-8044-ED89BAFD66AA" } }
 
-"hyper + Space" = "toggle_window_floating"
-"hyper + Enter" = "toggle_fullscreen_within_gaps"
-"hyper + Slash" = "toggle_orientation"
+"hyper + T" = "toggle_window_floating"
+"hyper + J" = "toggle_orientation"
+"hyper + F" = "toggle_fullscreen_within_gaps"
 
-# smartly resize windows
-"hyper + Equal" = "resize_window_grow"
-"hyper + Minus" = "resize_window_shrink"
-# Example vertical bindings for windows stacked in a scrolling-layout column:
-# "hyper + Shift + Equal" = { resize_window_grow = "vertical" }
-# "hyper + Shift + Minus" = { resize_window_shrink = "vertical" }
-# Use "smart" to resize the nearest applicable split automatically.
+# Resize windows using Omarchy's expand/shrink key order.
+"hyper + Minus" = "resize_window_grow"
+"hyper + Equal" = "resize_window_shrink"
+"hyper + Shift + Minus" = { resize_window_shrink = "vertical" }
+"hyper + Shift + Equal" = { resize_window_grow = "vertical" }
 
 # App launchers
-"hyper + F" = { "exec" = ["open", "-a", "Finder"] }
-"hyper + T" = { "exec" = ["open", "-a", "/Applications/Ghostty.app"] }
-"hyper + G" = { "exec" = ["open", "-a", "/Applications/GitHub Desktop.app"] }
-"hyper + B" = { "exec" = ["open", "-a", "/Applications/Helium.app"] }
-"hyper + M" = { "exec" = ["open", "-a", "/System/Applications/Music.app"] }
-"hyper + C" = { "exec" = ["open", "-a", "/Applications/Zed.app"] }
+"hyper + Enter" = { "exec" = ["open", "-a", "/Applications/Ghostty.app"] }
+"hyper + Shift + Enter" = { "exec" = ["open", "-a", "/Applications/Helium.app"] }
+"hyper + Shift + B" = { "exec" = ["open", "-a", "/Applications/Helium.app"] }
+"hyper + Shift + A" = { "exec" = ["open", "-a", "/Applications/ChatGPT.app"] }
+"hyper + Shift + E" = { "exec" = ["open", "-a", "/Applications/Chromeless.app", "https://mail.google.com/"] }
+"hyper + Shift + Y" = { "exec" = ["open", "-a", "/Applications/Chromeless.app", "https://youtube.com/"] }
+"hyper + Shift + S" = { "exec" = ["open", "-a", "/Applications/Chromeless.app", "https://maps.google.com/"] }
+"hyper + Shift + X" = { "exec" = ["open", "-a", "/Applications/Chromeless.app", "https://x.com/"] }
+"hyper + Shift + F" = { "exec" = ["open", "-a", "Finder"] }
+"hyper + Shift + N" = { "exec" = ["open", "-a", "/Applications/Zed.app"] }
+"hyper + Shift + M" = { "exec" = ["open", "-a", "/System/Applications/Music.app"] }
 
 "hyper + Shift + Q" = "save_and_exit"
-"hyper + Grave" = "switch_to_last_workspace"
