@@ -81,9 +81,9 @@ mode = "bsp"
 # Center the lone tiled window on-screen when a workspace has exactly one window.
 # Disable to let it fill the area instead (full width/height); hyper + F also covers fullscreen.
 [settings.layout.bsp]
-center_single_window = true
+# center_single_window = true
 # Height of the lone centered window as a fraction of usable height (0.1..1.0)
-center_single_window_height_ratio = 1.0
+# center_single_window_height_ratio = 1.0
 
 # these settings only apply when layout mode == "master_stack"
 [settings.layout.master_stack]
@@ -483,14 +483,19 @@ hyper = "Meta + Alt + Ctrl"
 "hyper + Shift + Equal" = { resize_window_grow = "vertical" }
 
 # App launchers
+"hyper + Shift + Slash" = { "exec" = ["open", "-a", "/Applications/1Password.app"] }
 "hyper + Enter" = { "exec" = ["open", "-a", "/Applications/Ghostty.app"] }
 "hyper + Shift + Enter" = { "exec" = ["open", "-a", "/Applications/Helium.app"] }
 "hyper + Shift + B" = { "exec" = ["open", "-a", "/Applications/Helium.app"] }
 "hyper + Shift + A" = { "exec" = ["open", "-a", "/Applications/ChatGPT.app"] }
-"hyper + Shift + E" = { "exec" = ["open", "-a", "/Applications/Chromeless.app", "https://mail.google.com/"] }
-"hyper + Shift + Y" = { "exec" = ["open", "-a", "/Applications/Chromeless.app", "https://youtube.com/"] }
-"hyper + Shift + S" = { "exec" = ["open", "-a", "/Applications/Chromeless.app", "https://maps.google.com/"] }
-"hyper + Shift + X" = { "exec" = ["open", "-a", "/Applications/Chromeless.app", "https://x.com/"] }
+"hyper + Shift + C" = { "exec" = ["open", "-a", "/System/Applications/Calendar.app"] }
+# Helium app mode: exec the binary directly so --app is forwarded even when
+# Helium is already running (open -a --args only applies flags on fresh launch)
+"hyper + Shift + S" = { "exec" = ["/Applications/Helium.app/Contents/MacOS/Helium", "--app=https://maps.google.com"] }
+"hyper + Shift + E" = { "exec" = ["/Applications/Helium.app/Contents/MacOS/Helium", "--app=https://mail.google.com"] }
+"hyper + Shift + X" = { "exec" = ["/Applications/Helium.app/Contents/MacOS/Helium", "--app=https://x.com"] }
+"hyper + Shift + Y" = { "exec" = ["/Applications/Helium.app/Contents/MacOS/Helium", "--app=https://youtube.com"] }
+"hyper + Shift + H" = { "exec" = ["/Applications/Helium.app/Contents/MacOS/Helium", "--app=http://homeassistant.local:8123/"] }
 "hyper + Shift + F" = { "exec" = ["open", "-a", "Finder"] }
 "hyper + Shift + N" = { "exec" = ["open", "-a", "/Applications/Zed.app"] }
 "hyper + Shift + M" = { "exec" = ["open", "-a", "/System/Applications/Music.app"] }
