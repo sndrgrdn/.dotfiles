@@ -157,7 +157,7 @@ append_brewfile_entry() {
   local package_type="$1" package_name="$2"
   local temp_file
   temp_file=$(mktemp)
-  trap 'rm -f "$temp_file"' RETURN
+  trap 'rm -f "${temp_file:-}"' RETURN
 
   printf '%s "%s"\n' "$package_type" "$package_name" >> "$BREWFILE"
 
@@ -171,6 +171,7 @@ append_brewfile_entry() {
   fi
 
   mv "$temp_file" "$BREWFILE"
+  trap - RETURN
 }
 
 remove_brewfile_entry() {
@@ -229,7 +230,7 @@ report_package_status() {
   local missing_brew=() missing_cask=() installed_brew=() installed_cask=()
   local installed_formulas installed_casks kind package
 
-  installed_formulas=$(brew list --formula 2>/dev/null || true)
+  installed_formulas=$(brew list --formula --full-name 2>/dev/null || true)
   installed_casks=$(brew list --cask 2>/dev/null || true)
 
   while IFS=$'\t' read -r kind package; do
@@ -671,9 +672,13 @@ cmd_doctor() {
 
   step "Checking Fish completion link"
   local completion_target="$HOME/.config/fish/completions/dot.fish"
-  [[ -L "$completion_target" ]] && success "Fish completion is linked" || \
-    [[ -e "$completion_target" ]] && warn "Fish completion exists but is not a dotfiles symlink" || \
+  if [[ -e "$completion_target" && "$(realpath "$completion_target")" == "$HOME_DIR/.config/fish/completions/dot.fish" ]]; then
+    success "Fish completion is managed by dotfiles"
+  elif [[ -e "$completion_target" ]]; then
+    warn "Fish completion exists but is not managed by dotfiles"
+  else
     warn "Fish completion is not installed"
+  fi
 
   [[ $issues -eq 0 ]] && success "Doctor passed" || { error "Doctor found $issues issue(s)"; return 1; }
 }
