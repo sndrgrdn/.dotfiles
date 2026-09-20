@@ -7,6 +7,7 @@ schemaVersion = 3
 
 [appearance]
 mode = "dark"
+tabRailAppIcons = false
 
 [borders]
 enabled = true
@@ -66,10 +67,17 @@ fingerCount = 3
 invertDirection = true
 mouseMoveModifierKey = "option"
 mouseResizeModifierKey = "option"
+overviewGestureEnabled = false
+overviewGestureFingerCount = 4
 scrollEnabled = true
 scrollModifierKey = "optionShift"
 scrollSensitivity = 5.0
 trackpadScrollStyle = "snap"
+windowGestureSensitivity = 1.0
+windowMoveEnabled = false
+windowMoveFingerCount = 4
+windowResizeEnabled = false
+windowResizeFingerCount = 3
 workspaceSwipeAxis = "vertical"
 workspaceSwipeEnabled = false
 workspaceSwipeFingerCount = 3
@@ -159,7 +167,7 @@ monitorName = "Built-in Retina Display"
 [statusBar]
 showAppNames = false
 showWorkspaceName = true
-useWorkspaceId = false
+useWorkspaceId = true
 
 [workspaceBar]
 backgroundOpacity = 0.1
@@ -175,9 +183,13 @@ position = "overlappingMenuBar"
 reserveLayoutSpace = false
 revealHoldMilliseconds = 200.0
 revealModifier = "off"
+showAccentHighlights = true
 showFloatingWindows = false
+showItemBackgrounds = true
 showLabels = true
+solidBlackBackground = false
 systemStatsButton = false
+transparentBackground = false
 windowLevel = "normal"
 xOffset = 0.0
 yOffset = 0.0
