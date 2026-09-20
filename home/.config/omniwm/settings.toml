@@ -9,14 +9,14 @@ schemaVersion = 3
 mode = "dark"
 
 [borders]
-enabled = false
-width = 5.0
+enabled = true
+width = 2.0
 
 [borders.color]
 alpha = 1.0
-blue = 0.979300037944676
-green = 1.0
-red = 0.08458520228437894
+blue = 0.9568627450980393
+green = 0.6784313725490196
+red = 0.5411764705882353
 
 [clipboard]
 historyEnabled = false
@@ -37,7 +37,7 @@ crossesMonitorAtEdge = false
 followsMouse = false
 followsWindowToMonitor = true
 lockModifier = "off"
-moveCrossesMonitorAtEdge = false
+moveCrossesMonitorAtEdge = true
 moveMouseToFocusedWindow = true
 raiseOnMouseFocus = false
 
@@ -135,8 +135,22 @@ position = "center"
 widthPercent = 50.0
 
 [routing]
-arrangements = []
-mode = "macOS"
+mode = "custom"
+
+[[routing.arrangements]]
+id = "DAF5AAEE-E60D-4C76-8270-708601E8323B"
+
+[[routing.arrangements.monitors]]
+gridColumn = 0
+gridRow = 0
+monitorDisplayUUID = "CE64D036-5B06-46FE-8044-ED89BAFD66AA"
+monitorName = "Studio Display XDR"
+
+[[routing.arrangements.monitors]]
+gridColumn = 0
+gridRow = 1
+monitorDisplayUUID = "37D8832A-2D66-02CA-B9F7-8F30A301B230"
+monitorName = "Built-in Retina Display"
 
 [scratchpads]
 
@@ -1071,3 +1085,15 @@ name = "9"
 
 [workspaces.monitorAssignment]
 type = "main"
+
+[[workspaces]]
+id = "9B705D2A-121D-463A-901B-8D0854B87929"
+layoutType = "default"
+name = "10"
+
+[workspaces.monitorAssignment]
+type = "specificDisplay"
+
+[workspaces.monitorAssignment.output]
+displayUUID = "CE64D036-5B06-46FE-8044-ED89BAFD66AA"
+name = "Studio Display XDR"
