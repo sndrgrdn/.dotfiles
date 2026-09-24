@@ -19,6 +19,27 @@ blue = 0.9568627450980393
 green = 0.6784313725490196
 red = 0.5411764705882353
 
+[borders.glow]
+enabled = false
+opacity = 0.6
+radius = 8.0
+
+[borders.gradient]
+direction = "topLeftToBottomRight"
+enabled = false
+
+[borders.gradient.end]
+alpha = 1.0
+blue = 0.9569975733757019
+green = 0.678307056427002
+red = 0.5413950085639954
+
+[borders.gradient.start]
+alpha = 1.0
+blue = 0.9569975733757019
+green = 0.678307056427002
+red = 0.5413950085639954
+
 [clipboard]
 historyEnabled = false
 maxItemBytes = 8388608
@@ -35,7 +56,7 @@ useGlobalGaps = true
 
 [focus]
 crossesMonitorAtEdge = false
-followsMouse = false
+followsMouse = true
 followsWindowToMonitor = true
 lockModifier = "off"
 moveCrossesMonitorAtEdge = true
@@ -102,6 +123,9 @@ singleWindowFit = "fill"
 visibleContainerCount = 2
 
 [overview]
+invertScrollDirection = false
+matchFocusBorder = true
+mouseScrollSpeed = 1.0
 zoom = 1.0
 
 [overview.backdrop]
@@ -623,7 +647,7 @@ binding = "Unassigned"
 id = "moveColumnToWorkspace.8"
 
 [[hotkeys]]
-binding = "Hyper+Shift+Left Arrow"
+binding = "Control+Option+Shift+Left Arrow"
 id = "move.left"
 
 [[hotkeys]]
@@ -635,7 +659,7 @@ binding = "Hyper+Shift+Up Arrow"
 id = "move.up"
 
 [[hotkeys]]
-binding = "Hyper+Shift+Right Arrow"
+binding = "Control+Option+Shift+Right Arrow"
 id = "move.right"
 
 [[hotkeys]]
@@ -715,11 +739,11 @@ binding = "Unassigned"
 id = "toggleNativeFullscreen"
 
 [[hotkeys]]
-binding = "Control+Option+Shift+Left Arrow"
+binding = "Hyper+Shift+Left Arrow"
 id = "moveColumn.left"
 
 [[hotkeys]]
-binding = "Control+Option+Shift+Right Arrow"
+binding = "Hyper+Shift+Right Arrow"
 id = "moveColumn.right"
 
 [[hotkeys]]
