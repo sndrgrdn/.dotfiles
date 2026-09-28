@@ -231,6 +231,7 @@ report_package_status() {
   local installed_formulas installed_casks kind package
 
   installed_formulas=$(brew list --formula --full-name 2>/dev/null || true)
+  installed_formulas+=$'\n'$(brew list --formula 2>/dev/null || true)
   installed_casks=$(brew list --cask 2>/dev/null || true)
 
   while IFS=$'\t' read -r kind package; do
