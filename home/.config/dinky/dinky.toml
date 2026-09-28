@@ -6,8 +6,6 @@
 start-at-login = true
 workspaces = 5                  # per display; dinky creates missing Spaces, never removes any
 default-layout = 'tiles'        # tiles | accordion
-single-window-width-enabled = true
-single-window-width-percent = 70
 follow-app-activation = true    # Cmd-Tab and Dock clicks switch Spaces the fast way
 
 [accordion]
