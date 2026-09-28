@@ -506,7 +506,7 @@ apply_macos_defaults() {
   local apps=(
     "/Applications/Helium.app"
     "/Applications/Ghostty.app"
-    "/Applications/Zed.app"
+    "/Applications/Cursor.app"
     "/System/Applications/System Settings.app"
   )
   local items=() app
@@ -904,7 +904,7 @@ cmd_package() {
 
 cmd_edit() {
   local editor="${VISUAL:-}"
-  [ -n "$editor" ] || { error "No visual editor set. Add 'set -gx VISUAL zed' to ~/.config/fish/config.fish."; return 1; }
+  [ -n "$editor" ] || { error "No visual editor set. Add 'set -gx VISUAL cursor' to ~/.config/fish/config.fish."; return 1; }
   command -v "${editor%% *}" >/dev/null 2>&1 || { error "Visual editor not found: $editor"; return 1; }
   exec $editor "$DOTFILES_DIR"
 }

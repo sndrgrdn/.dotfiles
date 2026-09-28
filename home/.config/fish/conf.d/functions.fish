@@ -10,8 +10,8 @@ end
 
 function c
   if test (count $argv) -eq 0
-    zed .
+    cursor .
   else
-    zed $argv
+    cursor $argv
   end
 end
