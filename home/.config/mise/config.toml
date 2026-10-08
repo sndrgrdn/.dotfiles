@@ -1,6 +1,10 @@
 [settings]
 idiomatic_version_file_enable_tools = ["ruby"]
 
+[tool_alias]
+pi = "github:earendil-works/pi"
+opencode = "github:anomalyco/opencode"
+
 [tools]
 bun = "latest"
 ruby = "latest"
@@ -10,3 +14,5 @@ uv = "latest"
 python = "3.14"
 rust = "latest"
 usage = "latest"
+opencode = "latest"
+pi = "latest"

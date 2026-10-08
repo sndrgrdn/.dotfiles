@@ -1,101 +1,89 @@
-#:schema https://mikker.github.io/Dinky/schemas/dinky.json
-# ~/.config/dinky/dinky.toml. Saved changes take effect at once.
-# A key you leave out keeps the value shown here.
-# Every key and command: https://mikker.github.io/Dinky/configuration/
+#:schema https://dinky.rodeo/schemas/dinky.json
 
 start-at-login = true
-workspaces = 5                  # per display; dinky creates missing Spaces, never removes any
-default-layout = 'tiles'        # tiles | accordion
-follow-app-activation = true    # Cmd-Tab and Dock clicks switch Spaces the fast way
+workspaces = 5
+default-layout = 'tiles'
+follow-app-activation = true
 
 [accordion]
-padding = 30                    # points the neighbours peek out by
-orientation = 'auto'            # auto: run along the container's longer side | keep
+padding = 30
+orientation = 'auto'
 
 [gaps]
-inner = 10                      # or { horizontal = 10, vertical = 10 }
-outer = 10                      # or { top = 10, bottom = 10, left = 10, right = 10 }
-
-# Overrides for one display: main, secondary, or part of its name as `dinky list-displays` prints it.
-# [display.main]
-# gaps.outer.top = 44
+inner = 10
+outer = 10
 
 [borders]
 enabled = true
 width = 2
-active-color = '#8aadf4'        # '#rrggbb' or '#rrggbbaa'
-inactive-color = '#494d64'
-order = 'below'                 # below | above (a click-through ring over the window)
-exclude-apps = []               # bundle IDs whose windows get no border
+active-color = '#8aadf4'
+inactive-color = '#eeeeee55'
+order = 'below'
+exclude-apps = ['pl.maketheweb.cleanshotx']
 
 [focus-follows-mouse]
 enabled = false
-delay-ms = 100                  # how long the pointer rests on a window before it takes focus
-accordion-edges = true          # resting on a peeking accordion edge focuses that window
+delay-ms = 100
+accordion-edges = true
 
-# dinky commands run on events. exec-and-forget gets $DINKY_WORKSPACE, $DINKY_PREV_WORKSPACE, $DINKY_DISPLAY.
-# [hooks]
-# startup = ['exec-and-forget brew services restart sketchybar']
-# workspace-changed = ['exec-and-forget sketchybar --trigger workspace_change']
-# focus-changed = []
-# mode-changed = []
+[animations]
+enabled = true
+duration-ms = 150
 
-# Every rule whose conditions all match a new window runs, in order.
 [[rules]]
-app-id = 'com.apple.systempreferences'   # also: app-name, title (regexes), kind (normal|dialog|sheet|panel)
+app-id = 'com.apple.systempreferences'
 run = 'layout floating'
 
 [[rules]]
-app-id = 'com.apple.FaceTime'
+app-id = 'com.apple.finder'
 run = 'layout floating'
 
 [[rules]]
-app-id = 'com.apple.AppStore'
+app-id = 'com.apple.Preview'
 run = 'layout floating'
 
+[[rules]]
+app-id = 'com.apple.QuickTimePlayerX'
+run = 'layout floating'
+
+[[rules]]
+app-id = 'com.sindresorhus.Plain-Text-Editor'
+run = 'layout floating'
+
+# SUPER = Control + Option + Command (ctrl-alt-cmd).
 [mode.main]
-ctrl-left = 'workspace prev'
-ctrl-right = 'workspace next'
-alt-1 = 'workspace 1'
-alt-2 = 'workspace 2'
-alt-3 = 'workspace 3'
-alt-4 = 'workspace 4'
-alt-5 = 'workspace 5'
-alt-6 = 'workspace 6'
-alt-7 = 'workspace 7'
-alt-8 = 'workspace 8'
-alt-9 = 'workspace 9'
-alt-shift-1 = 'move-window-to-workspace 1'
-alt-shift-2 = 'move-window-to-workspace 2'
-alt-shift-3 = 'move-window-to-workspace 3'
-alt-shift-4 = 'move-window-to-workspace 4'
-alt-shift-5 = 'move-window-to-workspace 5'
-alt-shift-6 = 'move-window-to-workspace 6'
-alt-shift-7 = 'move-window-to-workspace 7'
-alt-shift-8 = 'move-window-to-workspace 8'
-alt-shift-9 = 'move-window-to-workspace 9'
-alt-tab = 'workspace-back-and-forth'
-alt-h = 'focus left'
-alt-j = 'focus down'
-alt-k = 'focus up'
-alt-l = 'focus right'
-alt-shift-h = 'move left'
-alt-shift-j = 'move down'
-alt-shift-k = 'move up'
-alt-shift-l = 'move right'
-alt-minus = 'resize smart -50'
-alt-equal = 'resize smart +50'
-alt-f = 'fullscreen'
-alt-shift-f = 'layout floating tiling'
-alt-comma = 'layout accordion'
-alt-slash = 'layout tiles'
-alt-shift-n = 'move-window-to-display next'
-alt-shift-semicolon = 'mode service'
-
-[mode.service]
-esc = ['reload-config', 'mode main']
-r = ['flatten-workspace-tree', 'mode main']
-alt-shift-h = ['join-with left', 'mode main']
-alt-shift-j = ['join-with down', 'mode main']
-alt-shift-k = ['join-with up', 'mode main']
-alt-shift-l = ['join-with right', 'mode main']
+ctrl-alt-cmd-1 = 'workspace 1'
+ctrl-alt-cmd-2 = 'workspace 2'
+ctrl-alt-cmd-3 = 'workspace 3'
+ctrl-alt-cmd-4 = 'workspace 4'
+ctrl-alt-cmd-5 = 'workspace 5'
+ctrl-alt-cmd-6 = 'workspace 6'
+ctrl-alt-cmd-7 = 'workspace 7'
+ctrl-alt-cmd-8 = 'workspace 8'
+ctrl-alt-cmd-9 = 'workspace 9'
+ctrl-alt-cmd-shift-1 = 'move-window-to-workspace 1'
+ctrl-alt-cmd-shift-2 = 'move-window-to-workspace 2'
+ctrl-alt-cmd-shift-3 = 'move-window-to-workspace 3'
+ctrl-alt-cmd-shift-4 = 'move-window-to-workspace 4'
+ctrl-alt-cmd-shift-5 = 'move-window-to-workspace 5'
+ctrl-alt-cmd-shift-6 = 'move-window-to-workspace 6'
+ctrl-alt-cmd-shift-7 = 'move-window-to-workspace 7'
+ctrl-alt-cmd-shift-8 = 'move-window-to-workspace 8'
+ctrl-alt-cmd-shift-9 = 'move-window-to-workspace 9'
+ctrl-alt-cmd-tab = 'workspace next'
+ctrl-alt-cmd-shift-tab = 'workspace prev'
+ctrl-alt-cmd-backtick = 'workspace-back-and-forth'
+ctrl-alt-cmd-left = 'focus left'
+ctrl-alt-cmd-down = 'focus down'
+ctrl-alt-cmd-up = 'focus up'
+ctrl-alt-cmd-right = 'focus right'
+ctrl-alt-cmd-shift-left = 'move left'
+ctrl-alt-cmd-shift-down = 'move down'
+ctrl-alt-cmd-shift-up = 'move up'
+ctrl-alt-cmd-shift-right = 'move right'
+ctrl-alt-cmd-minus = 'resize smart -50'
+ctrl-alt-cmd-equal = 'resize smart +50'
+ctrl-alt-cmd-f = 'fullscreen'
+ctrl-alt-cmd-t = 'layout floating tiling'
+ctrl-alt-cmd-l = 'layout accordion tiles'
+ctrl-alt-cmd-shift-n = 'move-window-to-display next'
