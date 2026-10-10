@@ -553,6 +553,9 @@ apply_macos_defaults() {
   step "Appearance: dark mode"
   defaults write NSGlobalDomain AppleInterfaceStyle -string "Dark"
 
+  step "Appearance: disabling font smoothing"
+  defaults -currentHost write NSGlobalDomain AppleFontSmoothing -int 0
+
   step "Finder: hidden files, extensions, column view, path bar"
   defaults write com.apple.finder AppleShowAllFiles -bool true
   defaults write com.apple.finder FXPreferredViewStyle -string "clmv"

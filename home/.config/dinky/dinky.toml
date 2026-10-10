@@ -10,15 +10,14 @@ padding = 30
 orientation = 'auto'
 
 [gaps]
-inner = 10
-outer = 10
+inner = 12
+outer = 8
 
 [borders]
 enabled = true
-width = 2
-active-color = '#8aadf4'
+width = 3
+active-color = '#8aadf4ee'
 inactive-color = '#eeeeee55'
-order = 'below'
 exclude-apps = ['pl.maketheweb.cleanshotx']
 
 [focus-follows-mouse]
@@ -44,10 +43,6 @@ run = 'layout floating'
 
 [[rules]]
 app-id = 'com.apple.QuickTimePlayerX'
-run = 'layout floating'
-
-[[rules]]
-app-id = 'com.sindresorhus.Plain-Text-Editor'
 run = 'layout floating'
 
 # SUPER = Control + Option + Command (ctrl-alt-cmd).

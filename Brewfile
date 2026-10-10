@@ -1,7 +1,5 @@
-tap "ampcode/tap"
 tap "mikker/tap"
 
-brew "ampcode"
 brew "bash"
 brew "coreutils"
 brew "eza"
@@ -35,5 +33,4 @@ cask "github"
 cask "handy"
 cask "helium-browser"
 cask "orbstack"
-cask "raycast"
 cask "tailscale-app"
