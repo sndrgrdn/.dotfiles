@@ -10,24 +10,31 @@ padding = 30
 orientation = 'auto'
 
 [gaps]
-inner = 12
-outer = 8
+inner = 14
+outer = { top = 23, bottom = 12, left = 12, right = 12 }
 
 [borders]
 enabled = true
-width = 3
-active-color = '#8aadf4ee'
-inactive-color = '#eeeeee55'
+width = 2
+order = 'above'
+active-color = '#89b4faff'
+inactive-color = '#595959aa'
 exclude-apps = ['pl.maketheweb.cleanshotx']
 
 [focus-follows-mouse]
-enabled = false
+enabled = true
 delay-ms = 100
 accordion-edges = true
 
 [animations]
 enabled = true
 duration-ms = 150
+
+[hooks]
+startup = ['exec-and-forget sketchybar --reload']
+workspace-changing = ['exec-and-forget sketchybar --trigger dinky_workspace_changing DINKY_DISPLAY=$DINKY_DISPLAY DINKY_WORKSPACE=$DINKY_WORKSPACE']
+workspace-changed = ['exec-and-forget sketchybar --trigger dinky_workspace_changed']
+focus-changed = ['exec-and-forget sketchybar --trigger dinky_focus_changed']
 
 [[rules]]
 app-id = 'com.apple.systempreferences'
