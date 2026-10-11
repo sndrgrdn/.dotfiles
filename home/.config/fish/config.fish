@@ -2,4 +2,4 @@
 set fish_greeting
 
 # Visual editor
-set -gx VISUAL cursor
+set -gx VISUAL zed

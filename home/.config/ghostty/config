@@ -16,7 +16,7 @@ font-style-bold = Bold
 font-style-bold-italic = Bold Oblique
 
 # Font size
-font-size = 13
+font-size = 14
 
 # Line height
 adjust-cell-height = 10%

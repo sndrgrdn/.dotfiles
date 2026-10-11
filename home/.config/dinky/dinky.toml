@@ -22,7 +22,7 @@ inactive-color = '#595959aa'
 exclude-apps = ['pl.maketheweb.cleanshotx']
 
 [focus-follows-mouse]
-enabled = true
+enabled = false
 delay-ms = 100
 accordion-edges = true
 
