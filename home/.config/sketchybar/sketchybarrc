@@ -2,6 +2,7 @@
 
 export PATH="/opt/homebrew/bin:$PATH"
 PLUGIN_DIR="$CONFIG_DIR/plugins"
+RUBY="$HOME/.local/share/mise/shims/ruby"
 DINKY="$(command -v dinky)" || exit 1
 
 sketchybar --bar position=top height=33 color=0x00000000 \
@@ -48,7 +49,7 @@ if [ "${#members[@]}" -gt 1 ]; then
 fi
 
 sketchybar --add item workspace_observer left \
-  --set workspace_observer drawing=off updates=on script="$PLUGIN_DIR/workspaces.sh" \
+  --set workspace_observer drawing=off updates=on script="\"$RUBY\" \"$PLUGIN_DIR/workspaces.rb\"" \
   --subscribe workspace_observer dinky_workspace_changing dinky_workspace_changed \
     dinky_focus_changed display_change system_woke
 
@@ -60,20 +61,20 @@ sketchybar --add item active_app left \
     background.drawing=on background.color=0xf724273a \
     background.height=33 background.corner_radius=13 \
     background.border_width=1 background.border_color=0xff363a4f \
-    script="$PLUGIN_DIR/active_app.sh" \
+    script="\"$RUBY\" \"$PLUGIN_DIR/active_app.rb\"" \
   --subscribe active_app front_app_switched dinky_workspace_changed dinky_focus_changed system_woke
 
 sketchybar --default icon.drawing=off label.color=0xffa5adcb
 
 sketchybar --add item clock right \
   --set clock label.padding_left=20 label.padding_right=12 \
-    update_freq=10 script="$PLUGIN_DIR/clock.sh" \
+    update_freq=10 script="\"$RUBY\" \"$PLUGIN_DIR/clock.rb\"" \
   --add item date right \
   --set date label.padding_left=0 label.padding_right=0 \
-    update_freq=60 script="$PLUGIN_DIR/date.sh" \
+    update_freq=60 script="\"$RUBY\" \"$PLUGIN_DIR/date.rb\"" \
   --add item battery right \
   --set battery label.padding_left=6 label.padding_right=20 \
-    update_freq=120 script="$PLUGIN_DIR/battery.sh" \
+    update_freq=120 script="\"$RUBY\" \"$PLUGIN_DIR/battery.rb\"" \
   --subscribe battery power_source_change system_woke
 
 for segment in 5 4 3 2 1; do
@@ -83,14 +84,16 @@ for segment in 5 4 3 2 1; do
     background.height=10 background.corner_radius=0 padding_right=2
 done
 
+sketchybar --add event screen_unlocked com.apple.screenIsUnlocked
+
 sketchybar --add item weather right \
   --set weather icon.drawing=on icon= icon.width=dynamic \
     icon.background.drawing=on icon.background.color=0x00000000 \
     icon.background.image.drawing=on icon.background.image.scale=0.5 \
     icon.background.image.padding_left=12 icon.background.image.padding_right=8 \
     icon.padding_left=0 icon.padding_right=0 label.padding_right=20 \
-    update_freq=900 script="$PLUGIN_DIR/weather.sh" \
-  --subscribe weather system_woke \
+    update_freq=900 script="\"$RUBY\" \"$PLUGIN_DIR/weather.rb\"" \
+  --subscribe weather screen_unlocked \
   --add bracket status_island weather battery.1 battery.2 battery.3 battery.4 battery.5 battery date clock \
   --set status_island y_offset=0 background.drawing=on background.color=0xf724273a \
     background.height=33 background.corner_radius=13 \
