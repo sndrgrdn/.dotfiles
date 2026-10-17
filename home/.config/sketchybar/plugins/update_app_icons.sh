@@ -38,5 +38,5 @@ done
 
 mapping=$(dd if="$font" bs=1 skip="$((meta_offset + data_offset))" count="$data_length" 2>/dev/null |
   jq -r '.icons[] | ([.[1]] | implode) as $icon |
-    ((select(.[0] == ":default:") | [$icon, ""]), (.[2][]? | [$icon, .])) | join("\t")')
+    ((select(.[0] == ":default:") | [$icon, ""]), (.[2][]? | [$icon, .])) | join("\t") | rtrimstr("\t")')
 printf '%s\n' "$mapping" >"$(dirname "$0")/app_icons.tsv"

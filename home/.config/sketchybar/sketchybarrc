@@ -3,6 +3,7 @@
 export PATH="/opt/homebrew/bin:$PATH"
 PLUGIN_DIR="$CONFIG_DIR/plugins"
 DINKY="$(command -v dinky)" || exit 1
+"$PLUGIN_DIR/update_app_icons.sh" || exit 1
 
 sketchybar --bar position=top height=33 color=0x00000000 \
   blur_radius=0 border_width=0 shadow=off corner_radius=0 \
@@ -31,9 +32,13 @@ while read -r workspace; do
   sketchybar --add item "workspace.$workspace" left \
     --set "workspace.$workspace" width=dynamic icon="$workspace" icon.width=28 icon.align=center \
     icon.font="TX-02:Regular:12.0" \
-    icon.padding_left=0 icon.padding_right=0 icon.y_offset=1 \
+    icon.padding_left=0 icon.padding_right=1 icon.y_offset=1 \
+    icon.background.color=0x80363a4f icon.background.drawing=off \
+    icon.background.height=25 icon.background.corner_radius=9 icon.background.y_offset=0 \
     label.drawing=off y_offset=0 background.height=25 background.corner_radius=9 \
-    background.color=0xff363a4f click_script="'$DINKY' workspace $workspace"
+    background.color=0xff363a4f click_script="'$DINKY' workspace $workspace" \
+    script="$PLUGIN_DIR/workspaces.sh" \
+    --subscribe "workspace.$workspace" mouse.entered mouse.exited
 done <<<"$workspaces"
 
 if [ "${#members[@]}" -gt 1 ]; then
@@ -50,7 +55,7 @@ fi
 sketchybar --add item workspace_observer left \
   --set workspace_observer drawing=off updates=on script="$PLUGIN_DIR/workspaces.sh" \
   --subscribe workspace_observer dinky_workspace_changing dinky_workspace_changed \
-    dinky_focus_changed display_change system_woke
+    dinky_focus_changed space_windows_change display_change system_woke
 
 sketchybar --add item active_app left \
   --set active_app icon.drawing=on icon= icon.width=dynamic y_offset=0 padding_left=12 \
@@ -61,7 +66,7 @@ sketchybar --add item active_app left \
     background.height=33 background.corner_radius=13 \
     background.border_width=1 background.border_color=0xff363a4f \
     script="$PLUGIN_DIR/active_app.sh" \
-  --subscribe active_app front_app_switched dinky_workspace_changed dinky_focus_changed system_woke
+  --subscribe active_app front_app_switched dinky_workspace_changed dinky_focus_changed space_windows_change system_woke
 
 sketchybar --default icon.drawing=off label.color=0xffa5adcb
 
