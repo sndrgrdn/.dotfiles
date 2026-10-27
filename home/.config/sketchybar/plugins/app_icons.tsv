@@ -46,836 +46,849 @@
 	Arc
 	Arduino
 	Arduino IDE
-	Aseprite
-	Aside
-	Atom
-	Audacity
-	Audio MIDI Setup
-	AusweisApp
-	Automator
-	Azahar
-	Backblaze
-	Backblaze Downloader
-	Backblaze Restore
-	BaiduNetdisk
-	百度网盘
-	balenaEtcher
-	Bambu Studio
-	MoneyMoney
-	Basecamp
-	Basecamp.app
-	Battle.net
-	Bazaar
-	Bazecor
-	BBEdit
-	Bear
-	Beekeeper Studio
-	Beeper
-	Beeper Desktop
-	Betterbird
-	BetterTouchTool
-	Bilibili
-	哔哩哔哩
-	Bionic
-	Bitwarden
-	Bitwig Studio
-	Blender
-	Blitzit
-	Bluesky
-	Sky
-	Bluetooth File Exchange
-	Bluetooth
-	BluOS Controller
-	Calibre
-	Книги
-	YABA
-	Anybox
-	URL Manager Pro
-	Brain.fm
-	Brave Browser
-	Broadcasts
-	Bruno
-	Burn
-	Burp Suite*
-	BusyCal
-	Buzz
-	Calculator
-	Calculette
-	Rechner
-	Калькулятор
-	Calendar
-	日历
-	Fantastical
-	Cron
-	Amie
-	Calendrier
-	カレンダー
-	Notion Calendar
-	Kalender
-	Календар
-	Календарь
-	calibre
-	Capacities
-	Caprine
-	Carbon Copy Cloner
-	CC Switch
-	ChatGPT Atlas
-	Cherry Studio
-	Chess
-	The Enemy Within
-	Amazon Chime
-	Choosy
-	Cisco AnyConnect Secure Mobility Client
-	Cisco Secure Client
-	Citra
-	Citrix Workspace
-	Citrix Viewer
-	ClassIn
-	Claude
-	ClickUp
-	CLion
-	Clock
-	cmux
-	cmux NIGHTLY
-	coconutBattery
-	Code
-	Code - Insiders
-	Codex
-	Cold Turkey Blocker
-	Color Picker
-	数码测色计
-	Кольоромір
-	Цифровой колориметр
-	Digital Color Meter
-	Comet
-	Conductor
-	Console
-	Contacts
-	Copilot
-	CotEditor
-	Craft
-	Creative Cloud
-	CrossOver
-	Cubase
-	Cubase Pro
-	CurseForge
-	Cursor
-	Cypress
-	DaisyDisk
-	Dash
-	DataGrip
-	DataSpell
-	DaVinci Resolve
-	DBeaver
-	DeepL
-	DeepSeek
-	Deezer
-
-	Default
-	Default Folder X
-	Delta
-	Deluge
-	deno
-	CleanMyMac X
-	Devin
-	DEVONthink 3
-	DEVONthink
-	Dexcom
-	Dia
-	Dictionary
-	DingTalk
-	钉钉
-	阿里钉
-	Discord
-	Discord Canary
-	Discord PTB
-	Disk Utility
-	Docker
-	Docker Desktop
-	GrandTotal
-	Receipts
-	Dolphin
-	Dorico
-	Dorico Pro
-	Dota 2
-	Double Commander
-	Downie 4
-	Drafts
-	draw.io
-	Dropbox
-	Dropover
-	DSM
-	DVD Player
-	EA app
-	Eagle
-	Electron
-	Element
-	Emacs
-	Epic Games Launcher
-	EuDic
-	Evernote Legacy
-	Evernote
-	FaceTime
-	FaceTime 通话
-	Feedback Assistant
-	Feishu
-	飞书
-	飞书会议
-	Figma
-	FileBot
-	FileZilla
-	Final Cut Pro
-	Finamp
-	Find My
-	Локатор
-	Finder
-	访达
-	Bloom
-	FlowFinder
-	Firefox
-	Firefox Developer Edition
-	Firefox Nightly
-	Flaresolverr
-	Floorp
-	FlowJo
-	FL Studio
-	Fluxer
-	FMOD Studio
-	Folx
-	Font Book
-	foobar2000
-	Fork
-	ForkLift
-	Foxit PDF Reader
-	FreeLLMAPI
-	FreeCAD
-	Freeform
-	Freenet
-	FreeTube
-	FSNotes
-	Fusion
-	Games
-	System Preferences
-	System Settings
-	系统设置
-	Réglages Système
-	システム設定
-	Systemeinstellungen
-	System­einstellungen
-	Системні параметри
-	Системные настройки
-	Gemini
-	Google Gemini
-	Ghidra
-	Ghostty
-	GIMP
-	GitHub Desktop
-	GitHub Copilot
-	GitKraken
-	Godot
-	GOG Galaxy
-	GoLand
-	GoodLinks
-	Goodnotes
-	Google Chat
-	Chromium
-	Google Chrome
-	Google Chrome Canary
-	Google Drive
-	Google Earth Pro
-	Google Earth
-	Grammarly Editor
-	Granola
-	Grapher
-	Grayjay
-	Grok Bot
-	Hammerspoon
-	HandBrake
-	Hazel
-	HBO Max
-	Helium
-	Hermes
-	Hermes Agent
-	Hermes Agent Desktop
-	Hermes Agent*
-	Hex Fiend
-	Home
-	Home Assistant
-	brew-browser
-	WailBrew
-	TapHouse
-	Cork
-	Homebrew
-	Brewer X
-	Applite
-	BrewMate
-	Brewlet
-	Hyper
-	Hyperkey
-	iA Writer
-	Ice Cubes
-	IntelliJ IDEA
-	IINA
-	Adobe Illustrator*
-	Illustrator
-	Image Playground
-	ImHex
-	Adobe InDesign*
-	InDesign
-	Infuse
-	Inkdrop
-	Inkscape
-	Insomnia
-	Instagram
-	Instapaper
-	Instruments
-	Invoice Ninja
-	InvoiceNinja
-	Invoice Ninja*
-	invoiceninja*
-	iPhone Mirroring
-	Iris
-	iTerm
-	iTerm2
-	Product Portal
-	iZotope RX 9
-	iZotope RX 10
-	iZotope RX 11
-	iZotope RX 12
-	iZotope Ozone 9
-	iZotope Ozone 10
-	iZotope Ozone 11
-	iZotope Ozone 12
-	Jan
-	Jane Reader
-	JDownloader
-	JDownloader2
-	Uninstall JDownloader
-	Jellyfin Media Player
-	Jellyfin Desktop
-	Jellyseer
-	JetBrains Gateway
-	JetBrains Toolbox
-	Jira
-	Joplin
-	Journal
-	JuxtaText
-	카카오톡
-	KakaoTalk
-	Kakoune
-	Karabiner-Elements Settings
-	Karabiner-Elements
-	Karabiner-EventViewer
-	KeePassXC
-	KensingtonWorks
-	KensingtonWorks2
-	Keyboard Maestro
-	Keychain Access
-	Keynote
-	Keynote 讲演
-	KiCad
-	Kiro
-	Kiro Crew
-	kitty
-	KiwiDesk
-	Kodi
-	krita
-	LanguageTool for Desktop
-	Latest
-	League of Legends
-	legcord
-	Legcord
-	LibreWolf
-	LibreOffice
-	Lidarr
-	Adobe Lightroom
-	Lightroom Classic
-	LINE
-	Linear
-	Little Snitch
-	Little Snitch Network Monitor
-	Little Snitch Mini*
-	LM Studio
-	LobeHub
-	LocalSend
-	Logic Pro
-	Logseq
-	LuLu
-	Maccy
-	MacForge
-	MacPass
-	macshot
-	macshot.app
-	MacShot
-	Mactracker
-	Magnifier
-	Canary Mail
-	HEY
-	Mail
-	Mailspring
-	MailMate
-	Superhuman
-	Spark
-	Spark Mail
-	邮件
-	メール
-	Пошта
-	Почта
-	MakeMKV
-	MAMP
-	MAMP PRO
-	Maps
-	Google Maps
-	マップ
-	Karten
-	Карти
-	Карты
-	Marked 2
-	MarkText
-	MarkText+
-	Marta
-	Matlab
-	MATLAB
-	MATLABWindow
-	MATLAB_R2024b
-	MATLAB_R2024a
-	MATLAB_R2023b
-	MATLAB_R2023a
-	MATLAB_R2022b
-	MATLAB_R2022a
-	MATLAB_R2021b
-	MATLAB_R2021a
-	Mattermost
-	MediaInfo
-	Google Meet
-	MEGA
-	Messages
-	信息
-	Nachrichten
-	メッセージ
-	Повідомлення
-	Сообщения
-	Messenger
-	Microsoft Edge
-	Microsoft Excel
-	Microsoft Outlook
-	Microsoft PowerPoint
-	Microsoft Remote Desktop
-	Microsoft Teams
-	Microsoft Teams (work or school)
-	Microsoft Word
-	Migaku
-	Mimestream
-	Min
-	Minecraft
-	Minecraft Launcher
-	Miro
-	Mole
-	MongoDB Compass*
-	Moonlight
-	Motrix
-	Movist Pro
-	Mp3tag
-	mpv
-	MQTTX
-	MTGA
-	Mullvad Browser
-	Mullvad VPN
-	Muse
-	MuseHub
-	MuseScore
-	MuseScore 4
-	MuseScore Studio
-	Music
-	音乐
-	Musique
-	ミュージック
-	Musik
-	Chromatix
-	Музика
-	Музыка
-	Muxy
-	Native Access
-	Navicat Premium
-	NeoHtop
-	Neovide
-	neovide
-	Neovim
-	neovim
-	nvim
-	网易云音乐
-	NetEaseMusic
-	Netflix
-	NetNewsWire
-	MA 1 - Automatic Monitor Alignment
-	News
-	Nextcloud
-	Nicotine+
-	Nimble Commander
-	NimbleCommander-Unsigned
-	Noodl
-	Noodl Editor
-	NordVPN
-	Notability
-	Notes
-	备忘录
-	メモ
-	Notizen
-	Нотатки
-	Заметки
-	Notion
-	Notion Mail
-	Nova
-	Numbers
-	Numbers 表格
-	nvALT
-	Nvidia GeForce Now
-	GeForceNOW
-	Nzbget
-	Obsidian
-	OBS
-	Ollama
-	OmniDiskSweeper
-	OmniFocus
-	OmniRoute
-	1Password
-	OneDrive
-	ONLYOFFICE
-	OpenKnowledge
-	Open Video Downloader
-	ChatGPT
-	ChatGPT Classic
-	OpenAI Translator
-	OpenChamber
-	OpenClaw
-	opencode
-	OpenCode
-	OpenEmu
-	OpenVPN Connect
-	Opera
-	OrbStack
-	OrcaSlicer
-	Orion
-	Orion RC
-	Osaurus
-	Otty
-	Overcast
-	Overleaf
-	ShareLaTeX
-	Overseer
-	Seer
-	Pages
-	Pages 文稿
-	Parallels Desktop
-	Parcel
-	Parsec
-	Paseo
-	Passepartout
-	Password Depot
-	AutoFillPanelService
-	coreautha
-	Passwords
-	Passwörter
-	Паролі
-	Пароли
-	PasteBar
-	PCSX2
-	PDF Expert
-	Pearcleaner
-	Permute 3
-	Permute 4
-	Perplexity
-	Perplexity AI
-	pgAdmin 4
-	Phoenix Slides
-	Phone
-	Photos
-	Fotos
-	Фото
-	Adobe Photoshop*
-	PhpStorm
-	Pi-hole Remote
-	Pine
-	Pinta
-	Pixcall
-	Pixelmator Pro
-	PixiEditor
-	Play
-	Plex
-	Plexamp
-	Plezy
-	Podcasts
-	播客
-	Подкасти
-	Подкасты
-	PomoDone App
-	Postman
-	Premiere
-	Adobe Premiere
-	Adobe Premiere Pro 2024
-	Preview
-	预览
-	Skim
-	zathura
-	Aperçu
-	プレビュー
-	Vorschau
-	Оглядач
-	Просмотр
-	Print Center
-	Druckzentrale
-	Pro Tools
-	Problem Reporter
-	Authenticator
-	Proton Authenticator
-	Proton Drive
-	Proton Mail
-	Proton Mail Bridge
-	Proton Meet
-	Proton Pass
-	Proton Pass for Safari
-	Proton VPN
-	ProtonVPN
-	Prowlarr
-	Proxyman
-	PrusaSlicer
-	SuperSlicer
-	PS Remote Play
-	PureMac
-	PyCharm
-	qBittorrent
-	QBZ
-	QGIS
-	QLMarkdown
-	Qobuz
-	QQ
-	QQ音乐
-	QQMusic
-	Quantumult X
-	Quark
-	夸克
-	QuickTime Player
-	Quip
-	qutebrowser
-	Radarr
-	Raindrop.io
-	Raspberry Pi Imager
-	Raspberry Pi Connect
-	Raycast
-	Raycast Beta
-	rclone
-	Rclone
-	Rclone UI
-	REAPER
-	Reeder
-	rekordbox
-	Remind Faster
-	Reminders
-	提醒事项
-	Rappels
-	リマインダー
-	Erinnerungen
-	Нагадування
-	Напоминания
-	RenameMyTVSeries
-	Rename My TV Series
-	Replit
-	Repo Prompt
-	Resilio Sync
-	Rider
-	JetBrains Rider
-	Rio
-	Roblox
-	Royal TSX
-	RStudio
-	RsyncUI
-	ruffle
-	Ruffle
-	RustDesk
-	SABnzbd
-	Safari
-	Safari浏览器
-	Safari Technology Preview
-	Screencap
-	Scribus
-	Script Debugger
-	Script Editor
-	Seafile
-	Search
-	Secretive
-	Secretive.app
-	Sequel Ace
-	Sequel Pro
-	Session
-	Setapp
-	SF Symbols
-	SF Symbole
-	SF-Symbole
-	SF Symbols Beta
-	Shapr3D
-	Shortcuts
-	Команди
-	Команды
-	Sibelius
-	Signal
-	Silveran Reader
-	sioyek
-	Siri
-	Sketch
-	Skype
-	Slack
-	SmartGit
-	SmoothCSV
-	SnapGene
-	SnippetsLab
-	solidtime
-	Sonarr
-	SourceGit
-	Sourcetree
-	Spark Desktop
-	Sparkle
-	Spotify
-	Spotlight
-	StarUML
-	Steam
-	Steam Helper
-	Stickies
-	Stocks
-	Stremio
-	Studio 3T
-	Sublime Merge
-	Sublime Text
-	Summoners War
-	Super Productivity
-	superProductivity
-	Surfshark
-	Swift Playground
-	Synergy
-	System Information
-	System Profiler
-	T3 Code
-	T3 Code (Alpha)
-	T3 Code (Nightly)
-	T3 Chat
-	Tabby
-	TablePlus
-	Tailscale
-	Tana
-	Tautulli
-	TeamSpeak 3
-	TeamViewer
-	Telegram
-	Terminal
-	终端
-	ターミナル
-	Термінал
-	Терминал
-	Termius
-	Tern
-	TestFlight
-	Typora
-	TextEdit
-	The Sims 3
-	The Sims 4
-	Microsoft To Do
-	Things
-	Threema*
-	Thunderbird
-	Thunderbird Daily
-	TI Connect CE
-	TickTick
-	TIDAL
-	TigerVNC
-	Time Machine
-	TimeMachineEditor
-	TheTimeMachineMechanic
-	Timery
-	Timing
-	Tiny RDM
-	Tips
-	Todoist
-	Toggl Track
-	Tor Browser
-	Tot
-	Tower
-	TradingView
-	Transmission
-	Transmit
-	Trello
-	Tuna
-	Tuna (beta)
-	Tuple
-	Twingate
-	Tweetbot
-	Twitter
-	UGREEN NAS
-	Unity
-	Unity Hub
-	Usenapp
-	UTM
-	VeraCrypt
-	Vesktop
-	Viber
-	MacVim
-	Vim
-	VimR
-	VirtualBox
-	Visual Studio
-	Vivaldi
-	VLC
-	VMware Fusion
-	Voice Memos
-	Vorta
-	VSCodium
-	Warp
-	Wave
-	Waydir
-	Weather
-	Wetter
-	Погода
-	WebStorm
-	WebTorrent
-	Webull Desktop
-	微信
-	WeChat
-	企业微信
-	WeCom
-	WeTransfer
-	WezTerm
-	wezterm-gui
-	WhatCable
-	WhatsApp
-	‎WhatsApp
-	Windows App
-	WireGuard
-	Wireshark
-	Wispr Flow
-	WorkBuddy
-	Workbuddy
-	xemu
-	Xcode
-	XMind
-	Yaak
-	Yandex Browser
-	Yandex Browser
-	Yandex
-	Yandex Music
-	Yazi
-	yazi
-	YouTube
-	YouTube Music
-	Yubico Authenticator
-	YubiKey Manager
-	Yuque
-	语雀
-	Z-Library
-	Zed
-	Zed Preview
-	Zen
-	Zen Browser
-	Twilight
-	Zeplin
-	zoom.us
-	Zoom
-	Zotero
-	Zulip
+	Armbian Imager
+	Aseprite
+	Aside
+	Atom
+	Audacity
+	Audio MIDI Setup
+	AusweisApp
+	Automator
+	Azahar
+	Backblaze
+	Backblaze Downloader
+	Backblaze Restore
+	BaiduNetdisk
+	百度网盘
+	balenaEtcher
+	Bambu Studio
+	MoneyMoney
+	Basecamp
+	Basecamp.app
+	Battle.net
+	Bazaar
+	Bazecor
+	BBEdit
+	Bear
+	Beekeeper Studio
+	Beeper
+	Beeper Desktop
+	Betterbird
+	BetterTouchTool
+	Bilibili
+	哔哩哔哩
+	Bionic
+	Bitwarden
+	Bitwig Studio
+	Blender
+	Blitzit
+	Bluesky
+	Sky
+	Bluetooth File Exchange
+	Bluetooth
+	BluOS Controller
+	Calibre
+	Книги
+	YABA
+	Anybox
+	URL Manager Pro
+	Brain.fm
+	Brave Browser
+	Broadcasts
+	Bruno
+	Burn
+	Burp Suite*
+	BusyCal
+	Buzz
+	Calculator
+	Calculette
+	Rechner
+	Калькулятор
+	Calendar
+	日历
+	Fantastical
+	Cron
+	Amie
+	Calendrier
+	カレンダー
+	Notion Calendar
+	Kalender
+	Календар
+	Календарь
+	calibre
+	Capacities
+	Caprine
+	Carbon Copy Cloner
+	CC Switch
+	ChatGPT Atlas
+	Cherry Studio
+	Chess
+	The Enemy Within
+	Amazon Chime
+	Choosy
+	Cisco AnyConnect Secure Mobility Client
+	Cisco Secure Client
+	Citra
+	Citrix Workspace
+	Citrix Viewer
+	ClassIn
+	Claude
+	CleanMyMac
+	CleanMyMac X
+	CleanMyMac 3
+	ClickUp
+	CLion
+	Clock
+	cmux
+	cmux NIGHTLY
+	coconutBattery
+	Code
+	Code - Insiders
+	Codex
+	Cold Turkey Blocker
+	Color Picker
+	数码测色计
+	Кольоромір
+	Цифровой колориметр
+	Digital Color Meter
+	Comet
+	Conductor
+	Console
+	Contacts
+	Copilot
+	CotEditor
+	Craft
+	Creative Cloud
+	Crest
+	CrossOver
+	Cubase
+	Cubase Pro
+	CurseForge
+	Cursor
+	Cypress
+	DaisyDisk
+	Dash
+	DataGrip
+	DataSpell
+	DaVinci Resolve
+	DBeaver
+	DeepL
+	DeepSeek
+	Deezer
+
+	Default
+	Default Folder X
+	Delta
+	Deluge
+	deno
+	CleanMyMac X
+	Devin
+	DEVONthink 3
+	DEVONthink
+	Dexcom
+	Dia
+	Dictionary
+	DingTalk
+	钉钉
+	阿里钉
+	Discord
+	Discord Canary
+	Discord PTB
+	Disk Utility
+	Docker
+	Docker Desktop
+	GrandTotal
+	Receipts
+	Dolphin
+	Dorico
+	Dorico Pro
+	Dota 2
+	Double Commander
+	Downie 4
+	Drafts
+	draw.io
+	Dropbox
+	Dropover
+	DSM
+	DuckDuckGo
+	DVD Player
+	EA app
+	Eagle
+	Electron
+	Element
+	Emacs
+	Epic Games Launcher
+	EuDic
+	Evernote Legacy
+	Evernote
+	FaceTime
+	FaceTime 通话
+	Feedback Assistant
+	Feishu
+	飞书
+	飞书会议
+	Figma
+	FileBot
+	FileZilla
+	Final Cut Pro
+	Finamp
+	Find My
+	Локатор
+	Finder
+	访达
+	Bloom
+	FlowFinder
+	Firefox
+	Firefox Developer Edition
+	Firefox Nightly
+	Flaresolverr
+	Floorp
+	FlowJo
+	FL Studio
+	Fluxer
+	FMOD Studio
+	Folx
+	Font Book
+	foobar2000
+	Fork
+	ForkLift
+	Foundry VTT
+	Foundry VTT*
+	Foundry Virtual Tabletop
+	Foundry Virtual Tabletop*
+	Foxit PDF Reader
+	FreeLLMAPI
+	FreeCAD
+	Freeform
+	Freenet
+	FreeTube
+	FSNotes
+	Fusion
+	Games
+	System Preferences
+	System Settings
+	系统设置
+	Réglages Système
+	システム設定
+	Systemeinstellungen
+	System­einstellungen
+	Системні параметри
+	Системные настройки
+	Gemini
+	Google Gemini
+	Ghidra
+	Ghostty
+	GIMP
+	GitHub Desktop
+	GitHub Copilot
+	GitKraken
+	Godot
+	GOG Galaxy
+	GoLand
+	GoodLinks
+	Goodnotes
+	Google Chat
+	Chromium
+	Google Chrome
+	Google Chrome Canary
+	Google Drive
+	Google Earth Pro
+	Google Earth
+	Grammarly Editor
+	Granola
+	Grapher
+	Grayjay
+	Grok Bot
+	Hammerspoon
+	HandBrake
+	Hazel
+	HBO Max
+	Helium
+	Hermes
+	Hermes Agent
+	Hermes Agent Desktop
+	Hermes Agent*
+	Hex Fiend
+	Home
+	Home Assistant
+	brew-browser
+	WailBrew
+	TapHouse
+	Cork
+	Homebrew
+	Brewer X
+	Applite
+	BrewMate
+	Brewlet
+	Hyper
+	Hyperkey
+	iA Writer
+	Ice Cubes
+	IntelliJ IDEA
+	IINA
+	Adobe Illustrator*
+	Illustrator
+	Image Playground
+	ImHex
+	Adobe InDesign*
+	InDesign
+	Infuse
+	Inkdrop
+	Inkscape
+	Insomnia
+	Instagram
+	Instapaper
+	Instruments
+	Invoice Ninja
+	InvoiceNinja
+	Invoice Ninja*
+	invoiceninja*
+	iPhone Mirroring
+	Iris
+	iTerm
+	iTerm2
+	Product Portal
+	iZotope RX 9
+	iZotope RX 10
+	iZotope RX 11
+	iZotope RX 12
+	iZotope Ozone 9
+	iZotope Ozone 10
+	iZotope Ozone 11
+	iZotope Ozone 12
+	Jan
+	Jane Reader
+	JDownloader
+	JDownloader2
+	Uninstall JDownloader
+	Jellyfin Media Player
+	Jellyfin Desktop
+	Jellyseer
+	JetBrains Gateway
+	JetBrains Toolbox
+	Jira
+	Joplin
+	Journal
+	JuxtaText
+	카카오톡
+	KakaoTalk
+	Kakoune
+	Karabiner-Elements Settings
+	Karabiner-Elements
+	Karabiner-EventViewer
+	KeePassXC
+	KensingtonWorks
+	KensingtonWorks2
+	Keyboard Maestro
+	Keychain Access
+	Keynote
+	Keynote 讲演
+	KiCad
+	Kiro
+	Kiro Crew
+	kitty
+	KiwiDesk
+	Kodi
+	krita
+	LanguageTool for Desktop
+	Latest
+	League of Legends
+	legcord
+	Legcord
+	LibreWolf
+	LibreOffice
+	Lidarr
+	Adobe Lightroom
+	Lightroom Classic
+	LINE
+	Linear
+	Little Snitch
+	Little Snitch Network Monitor
+	Little Snitch Mini*
+	LM Studio
+	LobeHub
+	LocalSend
+	Logic Pro
+	Logseq
+	LuLu
+	Maccy
+	MacForge
+	MacPass
+	macshot
+	macshot.app
+	MacShot
+	Mactracker
+	Magnifier
+	Canary Mail
+	HEY
+	Mail
+	Mailspring
+	MailMate
+	Superhuman
+	Spark
+	Spark Mail
+	邮件
+	メール
+	Пошта
+	Почта
+	MakeMKV
+	MAMP
+	MAMP PRO
+	Maps
+	Google Maps
+	マップ
+	Karten
+	Карти
+	Карты
+	Marked 2
+	MarkText
+	MarkText+
+	Marta
+	Matlab
+	MATLAB
+	MATLABWindow
+	MATLAB_R2024b
+	MATLAB_R2024a
+	MATLAB_R2023b
+	MATLAB_R2023a
+	MATLAB_R2022b
+	MATLAB_R2022a
+	MATLAB_R2021b
+	MATLAB_R2021a
+	Mattermost
+	MediaInfo
+	Google Meet
+	MEGA
+	Melvor Idle
+	Melvor Idle 2
+	Melvor2
+	Messages
+	信息
+	Nachrichten
+	メッセージ
+	Повідомлення
+	Сообщения
+	Messenger
+	Microsoft Edge
+	Microsoft Excel
+	Microsoft Outlook
+	Microsoft PowerPoint
+	Microsoft Remote Desktop
+	Microsoft Teams
+	Microsoft Teams (work or school)
+	Microsoft Word
+	Migaku
+	Mimestream
+	Min
+	Minecraft
+	Minecraft Launcher
+	Miro
+	Mole
+	MongoDB Compass*
+	Moonlight
+	Motrix
+	Movist Pro
+	Mp3tag
+	mpv
+	MQTTX
+	MTGA
+	Mullvad Browser
+	Mullvad VPN
+	Muse
+	MuseHub
+	MuseScore
+	MuseScore 4
+	MuseScore Studio
+	Music
+	音乐
+	Musique
+	ミュージック
+	Musik
+	Chromatix
+	Музика
+	Музыка
+	Muxy
+	Native Access
+	Navicat Premium
+	NeoHtop
+	Neovide
+	neovide
+	Neovim
+	neovim
+	nvim
+	网易云音乐
+	NetEaseMusic
+	Netflix
+	NetNewsWire
+	MA 1 - Automatic Monitor Alignment
+	News
+	Nextcloud
+	Nicotine+
+	Nimble Commander
+	NimbleCommander-Unsigned
+	Noodl
+	Noodl Editor
+	NordVPN
+	Notability
+	Notes
+	备忘录
+	メモ
+	Notizen
+	Нотатки
+	Заметки
+	Notion
+	Notion Mail
+	Nova
+	Numbers
+	Numbers 表格
+	nvALT
+	Nvidia GeForce Now
+	GeForceNOW
+	Nzbget
+	Obsidian
+	OBS
+	Ollama
+	OmniDiskSweeper
+	OmniFocus
+	OmniRoute
+	1Password
+	OneDrive
+	ONLYOFFICE
+	OpenKnowledge
+	Open Video Downloader
+	ChatGPT
+	ChatGPT Classic
+	OpenAI Translator
+	OpenChamber
+	OpenClaw
+	opencode
+	OpenCode
+	OpenEmu
+	OpenVPN Connect
+	Opera
+	OrbStack
+	OrcaSlicer
+	Orion
+	Orion RC
+	Osaurus
+	Otty
+	Overcast
+	Overleaf
+	ShareLaTeX
+	Overseer
+	Seer
+	Pages
+	Pages 文稿
+	Parallels Desktop
+	Parcel
+	Parsec
+	Paseo
+	Passepartout
+	Password Depot
+	AutoFillPanelService
+	coreautha
+	Passwords
+	Passwörter
+	Паролі
+	Пароли
+	PasteBar
+	PCSX2
+	PDF Expert
+	Pearcleaner
+	Permute 3
+	Permute 4
+	Perplexity
+	Perplexity AI
+	pgAdmin 4
+	Phoenix Slides
+	Phone
+	Photos
+	Fotos
+	Фото
+	Adobe Photoshop*
+	PhpStorm
+	Pi-hole Remote
+	Pine
+	Pinta
+	Pixcall
+	Pixelmator Pro
+	PixiEditor
+	Play
+	Plex
+	Plexamp
+	Plezy
+	Podcasts
+	播客
+	Подкасти
+	Подкасты
+	PomoDone App
+	Postman
+	Premiere
+	Adobe Premiere
+	Adobe Premiere Pro 2024
+	Preview
+	预览
+	Skim
+	zathura
+	Aperçu
+	プレビュー
+	Vorschau
+	Оглядач
+	Просмотр
+	Print Center
+	Druckzentrale
+	Pro Tools
+	Problem Reporter
+	Authenticator
+	Proton Authenticator
+	Proton Drive
+	Proton Mail
+	Proton Mail Bridge
+	Proton Meet
+	Proton Pass
+	Proton Pass for Safari
+	Proton VPN
+	ProtonVPN
+	Prowlarr
+	Proxyman
+	PrusaSlicer
+	SuperSlicer
+	PS Remote Play
+	PureMac
+	PyCharm
+	qBittorrent
+	QBZ
+	QGIS
+	QLMarkdown
+	Qobuz
+	QQ
+	QQ音乐
+	QQMusic
+	Quantumult X
+	Quark
+	夸克
+	QuickTime Player
+	Quip
+	qutebrowser
+	Radarr
+	Raindrop.io
+	Raspberry Pi Imager
+	Raspberry Pi Connect
+	Raycast
+	Raycast Beta
+	rclone
+	Rclone
+	Rclone UI
+	REAPER
+	Reeder
+	rekordbox
+	Remind Faster
+	Reminders
+	提醒事项
+	Rappels
+	リマインダー
+	Erinnerungen
+	Нагадування
+	Напоминания
+	RenameMyTVSeries
+	Rename My TV Series
+	Replit
+	Repo Prompt
+	Resilio Sync
+	Rider
+	JetBrains Rider
+	Rio
+	Roblox
+	Royal TSX
+	RStudio
+	RsyncUI
+	ruffle
+	Ruffle
+	RustDesk
+	SABnzbd
+	Safari
+	Safari浏览器
+	Safari Technology Preview
+	Screencap
+	Scribus
+	Script Debugger
+	Script Editor
+	Seafile
+	Search
+	Secretive
+	Secretive.app
+	Sequel Ace
+	Sequel Pro
+	Session
+	Setapp
+	SF Symbols
+	SF Symbole
+	SF-Symbole
+	SF Symbols Beta
+	Shapr3D
+	Shortcuts
+	Команди
+	Команды
+	Sibelius
+	Signal
+	Silveran Reader
+	sioyek
+	Siri
+	Sketch
+	Skype
+	Slack
+	SmartGit
+	SmoothCSV
+	SnapGene
+	SnippetsLab
+	solidtime
+	Sonarr
+	SourceGit
+	Sourcetree
+	Spark Desktop
+	Sparkle
+	Spotify
+	Spotlight
+	StarUML
+	Steam
+	Steam Helper
+	Stickies
+	Stocks
+	Stremio
+	Studio 3T
+	Sublime Merge
+	Sublime Text
+	Summoners War
+	Super Productivity
+	superProductivity
+	Surfshark
+	Swift Playground
+	Synergy
+	System Information
+	System Profiler
+	T3 Code
+	T3 Code (Alpha)
+	T3 Code (Nightly)
+	T3 Chat
+	Tabby
+	TablePlus
+	Tailscale
+	Tana
+	Tautulli
+	TeamSpeak 3
+	TeamViewer
+	Telegram
+	Terminal
+	终端
+	ターミナル
+	Термінал
+	Терминал
+	Termius
+	Tern
+	TestFlight
+	Typora
+	TextEdit
+	The Sims 3
+	The Sims 4
+	Microsoft To Do
+	Things
+	Threema*
+	Thunderbird
+	Thunderbird Daily
+	TI Connect CE
+	TickTick
+	TIDAL
+	TigerVNC
+	Time Machine
+	TimeMachineEditor
+	TheTimeMachineMechanic
+	Timery
+	Timing
+	Tiny RDM
+	Tips
+	Todoist
+	Toggl Track
+	Tor Browser
+	Tot
+	Tower
+	TradingView
+	Transmission
+	Transmit
+	Trello
+	Tuna
+	Tuna (beta)
+	Tuple
+	Twingate
+	Tweetbot
+	Twitter
+	UGREEN NAS
+	Unity
+	Unity Hub
+	Usenapp
+	UTM
+	VeraCrypt
+	Vesktop
+	Viber
+	MacVim
+	Vim
+	VimR
+	VirtualBox
+	Visual Studio
+	Vivaldi
+	VLC
+	VMware Fusion
+	Voice Memos
+	Vorta
+	VSCodium
+	Warp
+	Wave
+	Waydir
+	Weather
+	Wetter
+	Погода
+	WebStorm
+	WebTorrent
+	Webull Desktop
+	微信
+	WeChat
+	企业微信
+	WeCom
+	WeTransfer
+	WezTerm
+	wezterm-gui
+	WhatCable
+	WhatsApp
+	‎WhatsApp
+	Windows App
+	WireGuard
+	Wireshark
+	Wispr Flow
+	WorkBuddy
+	Workbuddy
+	xemu
+	Xcode
+	XMind
+	Yaak
+	Yandex Browser
+	Yandex Browser
+	Yandex
+	Yandex Music
+	Yazi
+	yazi
+	YouTube
+	YouTube Music
+	Yubico Authenticator
+	YubiKey Manager
+	Yuque
+	语雀
+	Z-Library
+	Zed
+	Zed Preview
+	Zen
+	Zen Browser
+	Twilight
+	Zeplin
+	zoom.us
+	Zoom
+	Zotero
+	Zulip
