@@ -7,7 +7,7 @@ DINKY="$(command -v dinky)" || exit 1
 
 sketchybar --bar position=top height=32 color=0xff1a1b26 \
   blur_radius=0 border_width=0 shadow=off corner_radius=0 \
-  margin=0 y_offset=0 padding_left=10 padding_right=10
+  margin=0 y_offset=0 padding_left=16 padding_right=24
 
 sketchybar --default padding_left=0 padding_right=0 y_offset=1 \
   icon.font="TX-02:Regular:12.0" \
@@ -24,12 +24,8 @@ sketchybar --add event dinky_workspace_changing \
   --add event dinky_display_changed
 
 workspaces=$("$DINKY" list-workspaces --all) || exit 1
-sketchybar --add item workspace_padding_left left \
-  --set workspace_padding_left width=4 icon.drawing=off label.drawing=off
-members=(workspace_padding_left)
 while read -r workspace; do
   [ -n "$workspace" ] || continue
-  members+=("workspace.$workspace")
   sketchybar --add item "workspace.$workspace" left \
     --set "workspace.$workspace" width=dynamic icon="$workspace" icon.width=28 icon.align=center \
     icon.font="TX-02:Regular:12.0" \
@@ -41,12 +37,6 @@ while read -r workspace; do
     script="$PLUGIN_DIR/workspaces.sh" \
     --subscribe "workspace.$workspace" mouse.entered mouse.exited
 done <<<"$workspaces"
-
-if [ "${#members[@]}" -gt 1 ]; then
-  sketchybar --add item workspace_padding_right left \
-    --set workspace_padding_right width=4 icon.drawing=off label.drawing=off
-  members+=(workspace_padding_right)
-fi
 
 sketchybar --add item workspace_observer left \
   --set workspace_observer drawing=off updates=on script="$PLUGIN_DIR/workspaces.sh" \
@@ -65,7 +55,7 @@ sketchybar --add item active_app left \
 sketchybar --default icon.drawing=off label.color=0xffa9b1d6
 
 sketchybar --add item clock right \
-  --set clock label.padding_left=16 label.padding_right=0 label.color=0xffc0caf5 \
+  --set clock label.padding_left=16 label.padding_right=0 label.width=51 label.align=left label.color=0xffc0caf5 \
     update_freq=10 script="$PLUGIN_DIR/clock.sh" \
   --add item date right \
   --set date label.padding_left=0 label.padding_right=0 \
