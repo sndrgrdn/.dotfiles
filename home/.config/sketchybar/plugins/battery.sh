@@ -13,18 +13,18 @@ if [ -z "$percentage" ]; then
   exit 0
 fi
 
-color=0xffcad3f5
+color=0xffa9b1d6
 if printf '%s\n' "$status" | grep -q 'AC Power'; then
-  color=0xffa6da95
+  color=0xff9ece6a
 elif [ "$percentage" -le 20 ]; then
-  color=0xffed8796
+  color=0xfff7768e
 fi
 
 filled=$(( (percentage + 19) / 20 ))
 for segment in 1 2 3 4 5; do
-  segment_color=0xff363a4f
+  segment_color=0xff414868
   [ "$segment" -le "$filled" ] && segment_color="$color"
   args+=(--set "battery.$segment" drawing=on background.color="$segment_color")
 done
-args+=(--set "$NAME" drawing=on label="$percentage%" label.color=0xffa5adcb)
+args+=(--set "$NAME" drawing=on label="$percentage%" label.color=0xffa9b1d6)
 sketchybar "${args[@]}"

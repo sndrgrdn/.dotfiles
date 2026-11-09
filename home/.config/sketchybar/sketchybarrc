@@ -5,14 +5,14 @@ PLUGIN_DIR="$CONFIG_DIR/plugins"
 DINKY="$(command -v dinky)" || exit 1
 "$PLUGIN_DIR/update_app_icons.sh" || exit 1
 
-sketchybar --bar position=top height=33 color=0x00000000 \
+sketchybar --bar position=top height=32 color=0xff1a1b26 \
   blur_radius=0 border_width=0 shadow=off corner_radius=0 \
-  margin=8 y_offset=8 padding_left=0 padding_right=0
+  margin=0 y_offset=0 padding_left=10 padding_right=10
 
 sketchybar --default padding_left=0 padding_right=0 y_offset=1 \
   icon.font="TX-02:Regular:12.0" \
   label.font="TX-02:Regular:12.0" \
-  icon.color=0xff8087a2 label.color=0xffcad3f5 \
+  icon.color=0xff565f89 label.color=0xffa9b1d6 \
   icon.padding_left=0 icon.padding_right=0 \
   label.padding_left=0 label.padding_right=0 \
   background.drawing=off background.border_width=0 \
@@ -34,10 +34,10 @@ while read -r workspace; do
     --set "workspace.$workspace" width=dynamic icon="$workspace" icon.width=28 icon.align=center \
     icon.font="TX-02:Regular:12.0" \
     icon.padding_left=0 icon.padding_right=1 icon.y_offset=1 \
-    icon.background.color=0x80363a4f icon.background.drawing=off \
-    icon.background.height=25 icon.background.corner_radius=9 icon.background.y_offset=0 \
-    label.drawing=off y_offset=0 background.height=25 background.corner_radius=9 \
-    background.color=0xff363a4f click_script="'$DINKY' workspace $workspace" \
+    icon.background.color=0xff292e42 icon.background.drawing=off \
+    icon.background.height=32 icon.background.corner_radius=0 icon.background.y_offset=0 \
+    label.drawing=off y_offset=0 background.height=2 background.corner_radius=0 \
+    background.y_offset=-15 background.color=0xff7aa2f7 click_script="'$DINKY' workspace $workspace" \
     script="$PLUGIN_DIR/workspaces.sh" \
     --subscribe "workspace.$workspace" mouse.entered mouse.exited
 done <<<"$workspaces"
@@ -46,11 +46,6 @@ if [ "${#members[@]}" -gt 1 ]; then
   sketchybar --add item workspace_padding_right left \
     --set workspace_padding_right width=4 icon.drawing=off label.drawing=off
   members+=(workspace_padding_right)
-  sketchybar --add bracket workspace_island "${members[@]}" \
-    --set workspace_island y_offset=0 background.drawing=on background.color=0xf724273a \
-    background.height=33 background.corner_radius=13 \
-    background.border_width=1 background.border_color=0xff363a4f \
-    background.padding_left=0 background.padding_right=0
 fi
 
 sketchybar --add item workspace_observer left \
@@ -60,32 +55,30 @@ sketchybar --add item workspace_observer left \
 
 sketchybar --add item active_app left \
   --set active_app icon.drawing=on icon= icon.width=dynamic y_offset=0 padding_left=8 \
-    icon.font="sketchybar-app-font:Regular:14.0" icon.color=0xffcad3f5 \
+    icon.font="sketchybar-app-font:Regular:14.0" icon.color=0xff7aa2f7 \
     icon.padding_left=12 icon.padding_right=8 \
     label.padding_left=0 label.padding_right=12 label.y_offset=1 \
-    background.drawing=on background.color=0xf724273a \
-    background.height=33 background.corner_radius=13 \
-    background.border_width=1 background.border_color=0xff363a4f \
+    background.drawing=off \
     script="$PLUGIN_DIR/active_app.sh" \
   --subscribe active_app front_app_switched dinky_workspace_changed dinky_focus_changed dinky_display_changed space_windows_change system_woke
 
-sketchybar --default icon.drawing=off label.color=0xffa5adcb
+sketchybar --default icon.drawing=off label.color=0xffa9b1d6
 
 sketchybar --add item clock right \
-  --set clock label.padding_left=20 label.padding_right=12 \
+  --set clock label.padding_left=16 label.padding_right=0 label.color=0xffc0caf5 \
     update_freq=10 script="$PLUGIN_DIR/clock.sh" \
   --add item date right \
   --set date label.padding_left=0 label.padding_right=0 \
     update_freq=60 script="$PLUGIN_DIR/date.sh" \
   --add item battery right \
-  --set battery label.padding_left=6 label.padding_right=20 \
+  --set battery label.padding_left=6 label.padding_right=16 \
     update_freq=120 script="$PLUGIN_DIR/battery.sh" \
   --subscribe battery power_source_change system_woke
 
 for segment in 5 4 3 2 1; do
   sketchybar --add item "battery.$segment" right \
     --set "battery.$segment" width=dynamic label= label.width=4 label.drawing=on y_offset=0 \
-    background.drawing=on background.color=0xff363a4f \
+    background.drawing=on background.color=0xff414868 \
     background.height=10 background.corner_radius=0 padding_right=2
 done
 
@@ -96,13 +89,8 @@ sketchybar --add item weather right \
     icon.background.drawing=on icon.background.color=0x00000000 \
     icon.background.image.drawing=on icon.background.image.scale=0.5 \
     icon.background.image.padding_left=12 icon.background.image.padding_right=8 \
-    icon.padding_left=0 icon.padding_right=0 label.padding_right=20 \
+    icon.padding_left=0 icon.padding_right=0 label.padding_right=16 \
     update_freq=900 script="$PLUGIN_DIR/weather.sh" \
-  --subscribe weather screen_unlocked \
-  --add bracket status_island weather battery.1 battery.2 battery.3 battery.4 battery.5 battery date clock \
-  --set status_island y_offset=0 background.drawing=on background.color=0xf724273a \
-    background.height=33 background.corner_radius=13 \
-    background.border_width=1 background.border_color=0xff363a4f \
-    background.padding_left=0 background.padding_right=0
+  --subscribe weather screen_unlocked
 
 sketchybar --update

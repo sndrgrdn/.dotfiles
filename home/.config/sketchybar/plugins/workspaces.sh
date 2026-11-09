@@ -28,11 +28,11 @@ while read -r workspace focused monitor; do
   fi
   args+=(--set "workspace.$workspace" display="$monitor")
   if [ "$selected" = true ]; then
-    args+=(background.drawing=on icon.color=0xffcad3f5)
+    args+=(background.drawing=on icon.color=0xffc0caf5)
   elif [[ "$empty_workspaces" = *" $workspace "* ]]; then
-    args+=(background.drawing=off icon.color=0xff494d64)
+    args+=(background.drawing=off icon.color=0xff414868)
   else
-    args+=(background.drawing=off icon.color=0xff8087a2)
+    args+=(background.drawing=off icon.color=0xffa9b1d6)
   fi
 done <<<"$workspaces"
 

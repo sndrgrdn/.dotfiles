@@ -4,21 +4,33 @@ start-at-login = true
 workspaces = 5
 default-layout = 'tiles'
 follow-app-activation = true
+lone-window-width = 1.0
+fullscreen-width = 1.0
+
+[workspace-to-display]
+1 = 'Built-in Retina Display'
+2 = 'Built-in Retina Display'
+3 = 'Built-in Retina Display'
+4 = 'Built-in Retina Display'
+5 = 'Studio Display XDR'
 
 [accordion]
 padding = 30
 orientation = 'auto'
 
 [gaps]
-inner = 8
-outer = { top = 17, bottom = 8, left = 8, right = 8 }
+inner = 10
+outer = { top = 8, bottom = 10, left = 10, right = 10 }
+
+[display.'Studio Display XDR'.gaps]
+outer = { top = 42, bottom = 10, left = 10, right = 10 }
 
 [borders]
-enabled = false
-width = 1
+enabled = true
+width = 2
 order = 'above'
-active-color = '#89b4faff'
-inactive-color = '#595959aa'
+active-color = '#7aa2f7ff'
+inactive-color = '#414868aa'
 exclude-apps = ['pl.maketheweb.cleanshotx']
 
 [focus-follows-mouse]
@@ -92,4 +104,7 @@ ctrl-alt-cmd-equal = 'resize smart +50'
 ctrl-alt-cmd-f = 'fullscreen'
 ctrl-alt-cmd-t = 'layout floating tiling'
 ctrl-alt-cmd-l = 'layout accordion tiles'
+ctrl-alt-cmd-n = 'focus-monitor next'
+ctrl-alt-cmd-p = 'focus-monitor prev'
 ctrl-alt-cmd-shift-n = 'move-window-to-display next'
+ctrl-alt-cmd-shift-p = 'move-window-to-display prev'

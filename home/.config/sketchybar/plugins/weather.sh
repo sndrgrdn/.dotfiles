@@ -22,7 +22,7 @@ fi
 
 icon=cloud
 label='--°C'
-color=0xff8087a2
+color=0xff565f89
 pattern='^[[:space:]]*([+-]?[0-9]+([.,][0-9]+)?)[[:space:]]*°[[:space:]]*C[[:space:]]+and[[:space:]]+([^[:cntrl:]]+)[[:space:]]*$'
 shopt -s nocasematch
 if weather=$(timeout 30 /usr/bin/shortcuts run "Current Weather" --output-type public.plain-text) &&
@@ -39,7 +39,7 @@ if weather=$(timeout 30 /usr/bin/shortcuts run "Current Weather" --output-type p
     *cloud*|*overcast*) icon=cloud ;;
     *clear*|*sunny*) icon=sun.max ;;
   esac
-  color=0xffa5adcb
+  color=0xffa9b1d6
 fi
 
 sketchybar --set "$NAME" icon.background.image="$CONFIG_DIR/icons/$icon.png" label="$label" label.color="$color"

@@ -1,2 +1,4 @@
-# GNU coreutils (brew install coreutils)
-fish_add_path --prepend "$HOMEBREW_PREFIX/opt/coreutils/libexec/gnubin"
+# GNU tools (brew install coreutils gnu-sed findutils grep)
+for tool in grep findutils gnu-sed coreutils
+    fish_add_path --prepend --move "$HOMEBREW_PREFIX/opt/$tool/libexec/gnubin"
+end
