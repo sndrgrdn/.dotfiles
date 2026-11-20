@@ -1,6 +1,7 @@
 #!/bin/bash
 
 export PATH="/opt/homebrew/bin:$PATH"
+. "$CONFIG_DIR/colors.sh"
 case "$SENDER" in
   mouse.entered)
     sketchybar --set "$NAME" icon.background.drawing=on
@@ -28,11 +29,11 @@ while read -r workspace focused monitor; do
   fi
   args+=(--set "workspace.$workspace" display="$monitor")
   if [ "$selected" = true ]; then
-    args+=(background.drawing=on icon.color=0xffc0caf5)
+    args+=(background.drawing=on icon.color=$COLOR_BRIGHT_FOREGROUND)
   elif [[ "$empty_workspaces" = *" $workspace "* ]]; then
-    args+=(background.drawing=off icon.color=0xff414868)
+    args+=(background.drawing=off icon.color=$COLOR_MUTED)
   else
-    args+=(background.drawing=off icon.color=0xffa9b1d6)
+    args+=(background.drawing=off icon.color=$COLOR_FOREGROUND)
   fi
 done <<<"$workspaces"
 

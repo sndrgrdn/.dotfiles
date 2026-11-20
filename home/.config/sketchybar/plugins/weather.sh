@@ -2,6 +2,7 @@
 
 set -o pipefail
 export PATH="/opt/homebrew/bin:$PATH"
+. "$CONFIG_DIR/colors.sh"
 
 session_unlocked() {
   /usr/sbin/ioreg -a -n Root -d1 |
@@ -22,7 +23,7 @@ fi
 
 icon=cloud
 label='--°C'
-color=0xff565f89
+color=$COLOR_DARK_FOREGROUND
 pattern='^[[:space:]]*([+-]?[0-9]+([.,][0-9]+)?)[[:space:]]*°[[:space:]]*C[[:space:]]+and[[:space:]]+([^[:cntrl:]]+)[[:space:]]*$'
 shopt -s nocasematch
 if weather=$(timeout 30 /usr/bin/shortcuts run "Current Weather" --output-type public.plain-text) &&
@@ -39,7 +40,7 @@ if weather=$(timeout 30 /usr/bin/shortcuts run "Current Weather" --output-type p
     *cloud*|*overcast*) icon=cloud ;;
     *clear*|*sunny*) icon=sun.max ;;
   esac
-  color=0xffa9b1d6
+  color=$COLOR_FOREGROUND
 fi
 
 sketchybar --set "$NAME" icon.background.image="$CONFIG_DIR/icons/$icon.png" label="$label" label.color="$color"
