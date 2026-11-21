@@ -1,7 +1,19 @@
 {
-  "bar": {
-    "left": ["sndrgrdn.dinky", "sndrgrdn.front-app"],
-    "right": ["sndrgrdn.weather", "sndrgrdn.battery", "sndrgrdn.clock"]
+  "bar" : {
+    "left" : [
+      "sndrgrdn.dinky",
+      "sndrgrdn.front-app"
+    ],
+    "right" : [
+      "sndrgrdn.weather",
+      "sndrgrdn.battery",
+      "sndrgrdn.clock"
+    ]
   },
-  "plugins": ["sndrgrdn.theme"]
+  "packages" : [
+    "git:github.com/sndrgrdn/gary-plugins"
+  ],
+  "plugins" : [
+    "sndrgrdn.theme"
+  ]
 }
