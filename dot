@@ -362,6 +362,12 @@ ensure_mise() {
   curl https://mise.run | sh && success "mise installed" || warn "Failed to install mise"
 }
 
+setup_theme_colors_filter() {
+  git -C "$DOTFILES_DIR" config filter.theme-colors.clean \
+    "sed -E \"s/^active-color = '#[0-9a-fA-F]+'/active-color = '#798186ff'/; s/^inactive-color = '#[0-9a-fA-F]+'/inactive-color = '#4b4e55aa'/\""
+  success "Git ignores theme border colours in dinky.toml"
+}
+
 setup_developer_dir() {
   local dev_dir="${HOME}/Developer"
   local mise_toml="${dev_dir}/.mise.toml"
@@ -597,6 +603,7 @@ cmd_init() {
   run_brew_bundle
   ensure_mise
   setup_developer_dir
+  setup_theme_colors_filter
   ensure_opencode
   setup_fish_shell
   apply_macos_defaults
