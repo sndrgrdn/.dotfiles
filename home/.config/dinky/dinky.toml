@@ -20,7 +20,7 @@ orientation = 'auto'
 
 [gaps]
 inner = 10
-outer = { top = 8, bottom = 10, left = 10, right = 10 }
+outer = { top = 10, bottom = 10, left = 10, right = 10 }
 
 [display.'Studio Display XDR'.gaps]
 outer = { top = 42, bottom = 10, left = 10, right = 10 }
@@ -29,8 +29,8 @@ outer = { top = 42, bottom = 10, left = 10, right = 10 }
 enabled = true
 width = 2
 order = 'above'
-active-color = '#7aa2f7ff'
-inactive-color = '#414868aa'
+active-color = '#6e6e6eff'
+inactive-color = '#808080aa'
 exclude-apps = ['pl.maketheweb.cleanshotx']
 
 [focus-follows-mouse]

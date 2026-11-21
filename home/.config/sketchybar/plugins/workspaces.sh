@@ -2,25 +2,15 @@
 
 export PATH="/opt/homebrew/bin:$PATH"
 . "$CONFIG_DIR/colors.sh"
-case "$SENDER" in
-  mouse.entered)
-    sketchybar --set "$NAME" icon.background.drawing=on
-    exit $?
-    ;;
-  mouse.exited)
-    sketchybar --set "$NAME" icon.background.drawing=off
-    exit $?
-    ;;
-esac
-[ "$NAME" = workspace_observer ] || exit 0
 
 workspaces=$(dinky list-workspaces --all \
-  --format '%{workspace} %{workspace-is-focused} %{monitor-id}') || exit 1
+  --format '%{workspace} %{workspace-is-focused} %{monitor-id} %{workspace-layout}') || exit 1
 empty_workspaces=$(dinky list-workspaces --all --empty) || exit 1
 empty_workspaces=" ${empty_workspaces//$'\n'/ } "
+empty_color=$(printf '0x%08x' $(((COLOR_FOREGROUND & 0xffffff) | 0x80000000)))
 
 args=()
-while read -r workspace focused monitor; do
+while read -r workspace focused monitor layout; do
   [ -n "$workspace" ] || continue
   selected="$focused"
   if [ "$SENDER" = dinky_workspace_changing ] && [ "$monitor" = "$DINKY_DISPLAY" ]; then
@@ -29,11 +19,15 @@ while read -r workspace focused monitor; do
   fi
   args+=(--set "workspace.$workspace" display="$monitor")
   if [ "$selected" = true ]; then
-    args+=(background.drawing=on icon.color=$COLOR_BRIGHT_FOREGROUND)
-  elif [[ "$empty_workspaces" = *" $workspace "* ]]; then
-    args+=(background.drawing=off icon.color=$COLOR_MUTED)
+    case "$layout" in
+      scrolling) glyph=󰝥 ;;
+      *) glyph=󱓻 ;;
+    esac
+    args+=(icon="$glyph" icon.color=$COLOR_FOREGROUND)
   else
-    args+=(background.drawing=off icon.color=$COLOR_FOREGROUND)
+    color=$COLOR_FOREGROUND
+    [[ "$empty_workspaces" = *" $workspace "* ]] && color=$empty_color
+    args+=(icon="$workspace" icon.color=$color)
   fi
 done <<<"$workspaces"
 

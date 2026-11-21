@@ -11,8 +11,8 @@ sketchybar --bar position=top height=32 color=$COLOR_BACKGROUND \
   margin=0 y_offset=0 padding_left=20 padding_right=20
 
 sketchybar --default padding_left=0 padding_right=0 y_offset=1 \
-  icon.font="TX-02:Regular:12.0" \
-  label.font="TX-02:Regular:12.0" \
+  icon.font="JetBrainsMono NFM:Regular:12.0" \
+  label.font="JetBrainsMono NFM:Regular:12.0" \
   icon.color=$COLOR_DARK_FOREGROUND label.color=$COLOR_FOREGROUND \
   icon.padding_left=0 icon.padding_right=0 \
   label.padding_left=0 label.padding_right=0 \
@@ -28,15 +28,9 @@ workspaces=$("$DINKY" list-workspaces --all) || exit 1
 while read -r workspace; do
   [ -n "$workspace" ] || continue
   sketchybar --add item "workspace.$workspace" left \
-    --set "workspace.$workspace" width=dynamic icon="$workspace" icon.width=28 icon.align=center \
-    icon.font="TX-02:Regular:12.0" \
-    icon.padding_left=0 icon.padding_right=1 icon.y_offset=1 \
-    icon.background.color=$COLOR_SELECTION icon.background.drawing=off \
-    icon.background.height=32 icon.background.corner_radius=0 icon.background.y_offset=0 \
-    label.drawing=off y_offset=0 background.height=2 background.corner_radius=0 \
-    background.y_offset=-15 background.color=$COLOR_ACCENT click_script="'$DINKY' workspace $workspace" \
-    script="$PLUGIN_DIR/workspaces.sh" \
-    --subscribe "workspace.$workspace" mouse.entered mouse.exited
+    --set "workspace.$workspace" width=dynamic icon="$workspace" icon.width=20 icon.align=center \
+    icon.padding_left=0 icon.padding_right=0 padding_right=1 icon.y_offset=1 \
+    label.drawing=off y_offset=0
 done <<<"$workspaces"
 
 sketchybar --add item workspace_observer left \
