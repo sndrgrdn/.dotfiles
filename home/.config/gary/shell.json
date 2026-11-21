@@ -1,0 +1,7 @@
+{
+  "bar": {
+    "left": ["sndrgrdn.dinky", "sndrgrdn.front-app"],
+    "right": ["sndrgrdn.weather", "sndrgrdn.battery", "sndrgrdn.clock"]
+  },
+  "plugins": ["sndrgrdn.theme"]
+}

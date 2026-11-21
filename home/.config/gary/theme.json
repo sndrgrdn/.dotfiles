@@ -1,0 +1,14 @@
+{
+  "fonts": {
+    "app-icon": { "family": "sketchybar-app-font", "size": 14 },
+    "picker-title": { "family": "TX-02", "size": 17, "weight": "semibold" },
+    "picker-query": { "family": "TX-02", "size": 14 }
+  },
+  "spacing": { "section": 16, "edge": 20 },
+  "bar": {
+    "height": 32,
+    "fonts": {
+      "body": { "family": "JetBrainsMono Nerd Font Mono", "size": 12, "weight": "regular" }
+    }
+  }
+}

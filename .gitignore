@@ -1,2 +1,4 @@
 home/.config/fish/fish_variables
 home/.config/fish/completions/dot.fish
+home/.config/gary/palette.toml
+home/.config/gary/plugins
