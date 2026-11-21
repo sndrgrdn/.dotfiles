@@ -43,11 +43,11 @@ enabled = true
 duration-ms = 150
 
 [hooks]
-startup = ['exec-and-forget ~/.local/bin/gary call sndrgrdn.dinky startup']
-workspace-changing = ['exec-and-forget ~/.local/bin/gary call sndrgrdn.dinky workspace-changing "$DINKY_DISPLAY" "$DINKY_WORKSPACE"']
-workspace-changed = ['exec-and-forget ~/.local/bin/gary call sndrgrdn.dinky workspace-changed']
-focus-changed = ['exec-and-forget ~/.local/bin/gary call sndrgrdn.dinky focus-changed']
-display-changed = ['exec-and-forget ~/.local/bin/gary call sndrgrdn.dinky display-changed']
+startup = ['exec-and-forget gary call sndrgrdn.dinky startup']
+workspace-changing = ['exec-and-forget gary call sndrgrdn.dinky workspace-changing "$DINKY_DISPLAY" "$DINKY_WORKSPACE"']
+workspace-changed = ['exec-and-forget gary call sndrgrdn.dinky workspace-changed']
+focus-changed = ['exec-and-forget gary call sndrgrdn.dinky focus-changed']
+display-changed = ['exec-and-forget gary call sndrgrdn.dinky display-changed']
 
 [[rules]]
 app-id = 'com.apple.systempreferences'
