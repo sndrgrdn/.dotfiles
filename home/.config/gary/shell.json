@@ -1,19 +1,61 @@
 {
-  "bar" : {
-    "left" : [
-      "sndrgrdn.dinky",
-      "sndrgrdn.front-app"
+  "bar": {
+    "center": [
+      "sndrgrdn.indicators",
+      "sndrgrdn.clock",
+      "sndrgrdn.weather"
     ],
-    "right" : [
-      "sndrgrdn.weather",
-      "sndrgrdn.battery",
-      "sndrgrdn.clock"
+    "left": [
+      "sndrgrdn.menu",
+      "sndrgrdn.dinky"
+    ],
+    "notchLeft": [
+      "sndrgrdn.now-playing"
+    ],
+    "right": [
+      "sndrgrdn.agents",
+      "sndrgrdn.bluetooth",
+      "sndrgrdn.network",
+      "sndrgrdn.audio",
+      "sndrgrdn.monitor",
+      "sndrgrdn.power"
     ]
   },
-  "packages" : [
-    "git:github.com/sndrgrdn/gary-plugins"
+  "packages": [
+    "/Users/sander/Developer/gary-plugins"
   ],
-  "plugins" : [
-    "sndrgrdn.theme"
-  ]
+  "plugins": [
+    "sndrgrdn.theme",
+    "sndrgrdn.clipboard",
+    "sndrgrdn.osd",
+    "sndrgrdn.launcher",
+    "sndrgrdn.hyper-key",
+    "sndrgrdn.app-shortcuts"
+  ],
+  "settings": {
+    "sndrgrdn.app-shortcuts": {
+      "shortcuts": {
+        "hyper+return": "com.superlogical.rex",
+        "hyper+shift+\\": "com.1password.1password",
+        "hyper+shift+a": "com.ampcode.amp.macos",
+        "hyper+shift+b": "com.anysphere.sand",
+        "hyper+shift+e": "net.imput.helium.app.fmgjjmmmlfnkbppncabfkddbjimcfncm",
+        "hyper+shift+g": "com.github.GitHubClient",
+        "hyper+shift+m": "com.apple.Music",
+        "hyper+shift+return": "net.imput.helium",
+        "hyper+shift+x": "net.imput.helium.app.lodlkdfmihgonocnmddehnfgiljnadcf",
+        "hyper+shift+y": "net.imput.helium.app.agimnkijcaahngcdmfeangaknmldooml"
+      }
+    },
+    "sndrgrdn.hyper-key": {
+      "shift": false
+    },
+    "sndrgrdn.launcher": {
+      "key": "cmd+space",
+      "minimal": true
+    },
+    "sndrgrdn.now-playing": {
+      "showTitle": true
+    }
+  }
 }
